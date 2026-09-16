@@ -7,15 +7,11 @@ Built for the **UNICEF AI for Nurturing Care Hackathon** (KOICA / MEST StartUp L
 
 > **Status — research prototype / offline-first MVP.** The repository includes a deterministic nutrition recommendation engine, encrypted on-device storage (SQLCipher), outbox-based synchronisation, severe-case referral guardrails, mobile and administrative interfaces, a TypeScript/Express/Prisma backend, pilot-district seed data, and automated tests. Some integrations and field-validation activities remain under development; see [Current scope](#current-scope).
 
-## Collaboration and authorship
+## Project ownership and acknowledgement
 
-NurtureLink was co-developed by **Leticia Offeibea** and **Yakubu Lute** as a collaborative health-technology project. Both contributors participated in the project's development and implementation; neither should be understood as the sole builder of the system.
+NurtureLink was **conceived, designed, and built by Leticia Offeibea** as a health-informatics and responsible-AI project. She led the problem formulation, CHPS workflow design, nutrition decision logic, local-food and counselling framework, interface and feature design, technical implementation, testing, documentation, and safety architecture.
 
-- **Leticia Offeibea:** problem formulation; health-information and CHPS workflow design; nutrition decision logic; local-food and counselling framework; responsible-AI and safety requirements; interface and feature design; testing, documentation, and implementation.
-- **Yakubu Lute:** software-engineering contributions, technical architecture, application development, and implementation.
-- **Joint work:** product direction, feature prioritisation, prototype development, review, and hackathon delivery.
-
-Repository ownership and commit history reflect how this clean portfolio copy was published; they are not a measure of individual authorship.
+**Teammate acknowledgement:** Yakubu Lute participated as a teammate during the UNICEF AI for Nurturing Care Hackathon. This repository is maintained by Leticia as evidence of her individual project work and research interests for graduate study.
 
 **Jump to:** [Screenshots](#screenshots) · [Recommendation Engine](#10-recommendation-engine) · [AI Architecture](#12-ai-architecture) · [Challenge Mapping](#20-unicef-challenge-area-mapping)
 
