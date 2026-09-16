@@ -19,7 +19,6 @@ Repository ownership and commit history reflect how this clean portfolio copy wa
 
 **Jump to:** [Screenshots](#screenshots) · [Recommendation Engine](#10-recommendation-engine) · [AI Architecture](#12-ai-architecture) · [Challenge Mapping](#20-unicef-challenge-area-mapping)
 
-**Implemented:** client registration · visit capture · dietary-diversity scoring · deterministic recommendation engine · seasonal + affordability food selection · referral guardrail · offline SQLite with outbox sync · at-rest encryption · JWT/PIN auth · reference-bundle versioning · Express + Prisma backend · pilot-district seed data
 ### Current scope
 
 **Implemented in the prototype:** client registration · visit capture · dietary-diversity scoring · deterministic recommendation engine · seasonal and affordability-aware food selection · referral guardrail · offline SQLite with outbox sync · at-rest encryption · JWT/PIN authentication · reference-bundle versioning · Express + Prisma backend · pilot-district seed data
