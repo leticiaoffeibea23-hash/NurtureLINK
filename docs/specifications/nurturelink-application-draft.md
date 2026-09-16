@@ -8,14 +8,14 @@
 
 | # | Name | Role | Based in | Background | Key skills |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Yakubu Lute | Technical lead | Kumasi / Accra, Ghana | Senior Full-Stack Engineer at Amalitech; Frontend Lead at mPedigree Network (health-tech, pharmaceutical verification); 7+ years production software (mobile, web, backend); born Tumu, Upper West Region | React Native/Expo, offline-first architecture, AI integration, TypeScript, WCAG 2.1 |
-| 2 | Leticia Offeibea | Health & nutrition domain | Ghana | BSc Health Information Management; Research Assistant on Social Determinants of Health; USAID Ghana National Malaria Elimination Programme field experience at community level | Health information systems, IYCF clinical thresholds, community health programme operations, population health analytics |
+| 1 | Yakubu Lute | Co-developer / technical architecture | Kumasi / Accra, Ghana | Senior Full-Stack Engineer at Amalitech; Frontend Lead at mPedigree Network (health-tech, pharmaceutical verification); 7+ years production software (mobile, web, backend); born Tumu, Upper West Region | React Native/Expo, offline-first architecture, AI integration, TypeScript, WCAG 2.1 |
+| 2 | Leticia Offeibea | Co-developer / health-information and nutrition lead | Ghana | BSc Health Information Management; Research Assistant on Social Determinants of Health; USAID Ghana National Malaria Elimination Programme field experience at community level | Health-information systems, CHPS workflow and product design, nutrition decision logic, responsible-AI safeguards, testing, documentation, and implementation |
 
 **UNICEF criteria:**
 
 - Female member: Leticia Offeibea
-- Technology expertise: Yakubu Lute — 7+ years full-stack, mobile, AI
-- Health/nutrition domain: Leticia Offeibea — HIM degree, USAID Ghana community health field work
+- Technology expertise: collaborative implementation, with Yakubu contributing 7+ years of full-stack, mobile, and AI engineering experience
+- Health-information and nutrition expertise: Leticia Offeibea — HIM degree, USAID Ghana community-health field work, workflow design, decision logic, and implementation
 - Connection to problem geography: Yakubu born in Upper West Region (named in problem statement); Leticia — Ghana community health programme experience
 - Responsible AI: both — architecture enforces clinical guardrails; LLM never makes clinical decisions
 
@@ -79,7 +79,7 @@ Scoping to a single district and a single language for the MVP is deliberate: a 
 
 ## 5. Repository
 
-GitHub: <https://github.com/YakubuLute/nurturelink>
+GitHub: <https://github.com/leticiaoffeibea23-hash/NurtureLINK>
 
 The repo is public and contains the full working prototype: React Native mobile app (screens: Register, Visit, Plan, Referral), deterministic recommendation engine with 50+ passing tests, Express.js backend with Prisma schema and seed data, and shared Zod schemas. The README describes the concept, the two core functions, the offline and responsible-AI design, and the bootcamp build plan.
 
