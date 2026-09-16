@@ -102,7 +102,7 @@ input{font-family:inherit;outline:none}
 <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:6px 2px 14px;">
 <div>
 <div style="font-size:13px;color:#6B7280;">{{ L.greeting }}</div>
-<div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:22px;color:#08283B;">Yakubu Lute</div>
+<div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:22px;color:#08283B;">Leticia Offeibea</div>
 <div style="font-size:12.5px;color:#6B7280;margin-top:2px;">12th Nov, 2026 · Kukuo CHPS zone</div>
 </div>
 <div style="display:flex;gap:8px;">
@@ -1098,7 +1098,7 @@ class Component extends DCLogic {
     const dangerActive = s.visit.danger.length > 0;
 
     const officers = [
-      { name: 'Yakubu Lute', zone: 'Kukuo', caseload: 24, initials: 'YL', avBg: '#EFF7FE', avFg: '#427CAF', synced: false },
+      { name: 'Leticia Offeibea', zone: 'Kukuo', caseload: 24, initials: 'LO', avBg: '#EFF7FE', avFg: '#427CAF', synced: false },
       { name: 'Mariama Abdulai', zone: 'Sagnarigu', caseload: 31, initials: 'MA', avBg: '#FFEFE6', avFg: '#B54000', synced: true },
       { name: 'Sulemana Iddi', zone: 'Gizaa', caseload: 19, initials: 'SI', avBg: '#F3FAF7', avFg: '#057A55', synced: true }
     ].map(o => ({ ...o, syncLabel: o.synced ? 'Synced' : '3 pending', syncColor: o.synced ? '#057A55' : '#B48700', syncBg: o.synced ? '#F3FAF7' : '#FFF9E6' }));
@@ -1169,7 +1169,7 @@ class Component extends DCLogic {
       keys, pinDots,
       choBtnStyle: s.role === 'cho' ? roleOn : roleOff, supBtnStyle: s.role === 'sup' ? roleOn : roleOff,
       setRoleCho: () => this.setState({ role: 'cho' }), setRoleSup: () => this.setState({ role: 'sup' }),
-      loginInitials: s.role === 'sup' ? 'RA' : 'YL', loginName: s.role === 'sup' ? 'Rashida Alhassan' : 'Yakubu Lute',
+      loginInitials: s.role === 'sup' ? 'RA' : 'LO', loginName: s.role === 'sup' ? 'Rashida Alhassan' : 'Leticia Offeibea',
       loginRole: s.role === 'sup' ? 'District nutrition officer' : 'Community Health Officer \u00b7 Kukuo', loginAvBg: s.role === 'sup' ? '#FFEFE6' : '#B4DAFB',
 
       query: s.query, onSearch: e => this.onSearch(e),
