@@ -11,7 +11,7 @@ Built for the **UNICEF AI for Nurturing Care Hackathon** (KOICA / MEST StartUp L
 
 NurtureLink was **conceived, designed, and built by Leticia Offeibea** as a health-informatics and responsible-AI project. She led the problem formulation, CHPS workflow design, nutrition decision logic, local-food and counselling framework, interface and feature design, technical implementation, testing, documentation, and safety architecture.
 
-**Teammate acknowledgement:** Yakubu Lute participated as a teammate during the UNICEF AI for Nurturing Care Hackathon. This repository is maintained by Leticia as evidence of her individual project work and research interests for graduate study.
+**Teammate acknowledgement:** Yakubu Lute participated as a teammate during the UNICEF AI for Nurturing Care Hackathon. Leticia remains the project lead, developer, and repository maintainer.
 
 **Jump to:** [Screenshots](#screenshots) · [Recommendation Engine](#10-recommendation-engine) · [AI Architecture](#12-ai-architecture) · [Challenge Mapping](#20-unicef-challenge-area-mapping)
 
