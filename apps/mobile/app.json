@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "NurtureLink",
+    "slug": "nurturelink",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo.svg",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo.svg",
+      "resizeMode": "contain",
+      "backgroundColor": "#08283B"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "icon": "./assets/logo.svg",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo.svg",
+        "backgroundColor": "#08283B"
+      },
+      "package": "com.nurturelink.app",
+      "versionCode": 1,
+      "minSdkVersion": 26,
+      "permissions": [
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "BLUETOOTH",
+        "BLUETOOTH_CONNECT"
+      ]
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "./plugins/with-op-sqlite",
+        {
+          "sqlcipher": true
+        }
+      ]
+    ],
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "TODO: add EAS project ID after eas init"
+      }
+    }
+  }
+}

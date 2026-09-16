@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/amalitech-design-system-019e2168-5801-7f30-8c31-130ff88f4c01/colors_and_type.css">
+<script src="_ds/amalitech-design-system-019e2168-5801-7f30-8c31-130ff88f4c01/_ds_bundle.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#041620;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input{font-family:inherit;outline:none}
+@keyframes scrIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.nsb::-webkit-scrollbar{display:none}
+.nsb{scrollbar-width:none}
+</style>
+</helmet>
+<div style="min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;padding:34px 16px;background:radial-gradient(1200px 620px at 50% -12%, #124a68 0%, #08283B 52%, #041620 100%);">
+<div style="position:relative;width:390px;height:844px;background:#0a0a0c;border-radius:54px;padding:11px;box-shadow:0 50px 90px -24px rgba(0,0,0,.65),0 0 0 2px #26262a, inset 0 0 0 2px #000;">
+<div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:126px;height:30px;background:#000;border-radius:0 0 20px 20px;z-index:60;"></div>
+<div style="position:relative;width:100%;height:100%;background:#F2F4F5;border-radius:43px;overflow:hidden;display:flex;flex-direction:column;">
+
+<div style="height:48px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 7px;z-index:40;position:relative;">
+<span style="font-size:14px;font-weight:600;color:{{ statusColor }};">11:01</span>
+<div style="display:flex;align-items:center;gap:7px;">
+<button onClick="{{ toggleOffline }}" style="display:flex;align-items:center;gap:4px;padding:2px 7px;border-radius:20px;background:{{ offBg }};">
+<sc-if value="{{ offline }}" hint-placeholder-val="{{ true }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#B54000" stroke-width="2.4" stroke-linecap="round"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.58 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg><span style="font-size:11px;font-weight:600;color:#B54000;">Offline</span></sc-if>
+<sc-if value="{{ online }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#057A55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg></sc-if>
+</button>
+<span style="font-size:11px;font-weight:600;color:{{ statusColor }};opacity:.7;">{{ battery }}%</span>
+<svg width="17" height="13" viewBox="0 0 24 24" fill="{{ statusColor }}"><rect x="2" y="10" width="3.5" height="8" rx="1"/><rect x="8" y="6" width="3.5" height="12" rx="1"/><rect x="14" y="2" width="3.5" height="16" rx="1" opacity=".35"/></svg>
+<svg width="24" height="13" viewBox="0 0 26 13" fill="none"><rect x="1" y="1" width="21" height="11" rx="3" stroke="{{ statusColor }}" stroke-opacity=".5" stroke-width="1.2"/><rect x="3" y="3" width="14" height="7" rx="1.5" fill="{{ statusColor }}"/><rect x="23.5" y="4.5" width="2" height="4" rx="1" fill="{{ statusColor }}" fill-opacity=".5"/></svg>
+</div>
+</div>
+
+<div style="position:relative;flex:1;overflow:hidden;">
+
+<!-- ============ SPLASH ============ -->
+<sc-if value="{{ isSplash }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;background:radial-gradient(700px 500px at 50% 30%, #0f4260 0%, #08283B 60%);animation:fadeIn .5s ease;">
+<div style="width:96px;height:96px;border-radius:26px;background:#FDFDFD;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px -12px rgba(0,0,0,.5);animation:pop .5s var(--ease-out);">
+<svg width="54" height="54" viewBox="0 0 24 25" fill="none"><path d="M12 23.2C12 23.2 3.4 17.9 3.4 12.2C3.4 9 5.7 7.2 8.2 7.2C9.9 7.2 11.3 8 12 9.3C12.7 8 14.1 7.2 15.8 7.2C18.3 7.2 20.6 9 20.6 12.2C20.6 17.9 12 23.2 12 23.2Z" fill="#08283B"/><path d="M12 9.4V2.6" stroke="#FF5A00" stroke-width="1.5" stroke-linecap="round"/><path d="M12 8C8.9 8 7.4 5.7 8 2.9C10.1 3.2 11.6 4.9 12 8Z" fill="#FF7B33"/><path d="M12 8C15.1 8 16.6 5.7 16 2.9C13.9 3.2 12.4 4.9 12 8Z" fill="#FF5A00"/></svg>
+</div>
+<div style="text-align:center;animation:scrIn .6s var(--ease-out) .1s both;">
+<div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:30px;color:#fff;letter-spacing:-.02em;">NurtureLink</div>
+<div style="font-size:14px;color:#92C9F9;margin-top:6px;max-width:220px;line-height:1.45;">Offline nutrition companion for CHPS frontline workers</div>
+</div>
+<div style="position:absolute;bottom:44px;display:flex;flex-direction:column;align-items:center;gap:14px;">
+<div style="width:26px;height:26px;border:2.5px solid rgba(146,201,249,.3);border-top-color:#92C9F9;border-radius:50%;animation:spin 1s linear infinite;"></div>
+<div style="font-size:11px;color:#5A6F7C;letter-spacing:.08em;text-transform:uppercase;">NurtureLink · UNICEF StartUp Lab</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ LOGIN ============ -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+<div class="nsb" style="position:absolute;inset:0;overflow-y:auto;background:#08283B;display:flex;flex-direction:column;padding:34px 28px 24px;animation:scrIn .3s var(--ease-out);">
+<div style="display:flex;align-items:center;gap:10px;">
+<div style="width:38px;height:38px;border-radius:11px;background:#fff;display:flex;align-items:center;justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 25" fill="none"><path d="M12 23.2C12 23.2 3.4 17.9 3.4 12.2C3.4 9 5.7 7.2 8.2 7.2C9.9 7.2 11.3 8 12 9.3C12.7 8 14.1 7.2 15.8 7.2C18.3 7.2 20.6 9 20.6 12.2C20.6 17.9 12 23.2 12 23.2Z" fill="#08283B"/><path d="M12 9.4V2.6" stroke="#FF5A00" stroke-width="1.6" stroke-linecap="round"/><path d="M12 8C8.9 8 7.4 5.7 8 2.9C10.1 3.2 11.6 4.9 12 8Z" fill="#FF7B33"/><path d="M12 8C15.1 8 16.6 5.7 16 2.9C13.9 3.2 12.4 4.9 12 8Z" fill="#FF5A00"/></svg></div>
+<span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:18px;color:#fff;">NurtureLink</span>
+</div>
+<div style="margin-top:26px;">
+<div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:24px;color:#fff;">Welcome back</div>
+<div style="font-size:14px;color:#8D9CA5;margin-top:5px;">Enter your PIN to open your caseload</div>
+</div>
+<div style="margin-top:20px;background:rgba(255,255,255,.06);border-radius:12px;padding:5px;display:flex;gap:5px;">
+<button onClick="{{ setRoleCho }}" style="{{ choBtnStyle }}">Health worker</button>
+<button onClick="{{ setRoleSup }}" style="{{ supBtnStyle }}">Supervisor</button>
+</div>
+<div style="margin-top:12px;font-size:11.5px;color:#5A6F7C;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8D9CA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Shared device · 3 worker profiles · drafts stay locked to you</span></div>
+<div style="margin-top:12px;display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border-radius:12px;padding:11px 14px;">
+<div style="width:40px;height:40px;border-radius:50%;background:{{ loginAvBg }};color:#08283B;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;">{{ loginInitials }}</div>
+<div><div style="font-size:15px;font-weight:600;color:#fff;">{{ loginName }}</div><div style="font-size:12px;color:#8D9CA5;">{{ loginRole }}</div></div>
+</div>
+<div style="display:flex;justify-content:center;gap:16px;margin:28px 0 8px;">
+<sc-for list="{{ pinDots }}" as="d" hint-placeholder-count="4"><div style="width:15px;height:15px;border-radius:50%;background:{{ d.bg }};border:2px solid {{ d.bc }};transition:all .15s;"></div></sc-for>
+</div>
+<div style="flex:1;"></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:280px;width:100%;margin:0 auto;">
+<sc-for list="{{ keys }}" as="k" hint-placeholder-count="12">
+<button onClick="{{ k.press }}" style="{{ k.style }}">{{ k.label }}</button>
+</sc-for>
+</div>
+<div style="text-align:center;font-size:12px;color:#5A6F7C;margin-top:18px;">Demo PIN — enter any 4 digits</div>
+</div>
+</sc-if>
+
+<!-- ============ HOME ============ -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div class="nsb" style="flex:1;overflow-y:auto;padding:8px 18px 24px;">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;padding:6px 2px 14px;">
+<div>
+<div style="font-size:13px;color:#6B7280;">{{ L.greeting }}</div>
+<div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:22px;color:#08283B;">Yakubu Lute</div>
+<div style="font-size:12.5px;color:#6B7280;margin-top:2px;">12th Nov, 2026 · Kukuo CHPS zone</div>
+</div>
+<div style="display:flex;gap:8px;">
+<button onClick="{{ openRegister }}" style="width:42px;height:42px;border-radius:50%;background:#08283B;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+<button onClick="{{ openNotifications }}" style="position:relative;width:42px;height:42px;border-radius:50%;background:#FDFDFD;border:1px solid #E5E7EB;display:flex;align-items:center;justify-content:center;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#08283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+<sc-if value="{{ hasUnread }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:50%;background:#FF5A00;border:1.5px solid #fff;"></span></sc-if>
+</button>
+</div>
+</div>
+
+<sc-if value="{{ syncing }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:12px;background:#EFF7FE;border:1px solid #B4DAFB;border-radius:14px;padding:14px;">
+<div style="width:22px;height:22px;border:2.5px solid #B4DAFB;border-top-color:#427CAF;border-radius:50%;animation:spin .9s linear infinite;"></div>
+<div><div style="font-size:14px;font-weight:600;color:#08283B;">Syncing…</div><div style="font-size:12px;color:#427CAF;">Uploading {{ pending }} records to DHIMS2</div></div>
+</div>
+</sc-if>
+<sc-if value="{{ syncOffline }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:12px;background:#FFF9E6;border:1px solid #FFE18A;border-radius:14px;padding:13px 14px;">
+<div style="width:38px;height:38px;flex:none;border-radius:10px;background:#FFEBB0;display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#B48700" stroke-width="2" stroke-linecap="round"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg></div>
+<div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Working offline · {{ pending }} records on device</div><div style="font-size:11.5px;color:#8C6900;">They'll sync automatically when you're online</div></div>
+<button onClick="{{ sync }}" style="font-size:12px;font-weight:600;color:#08283B;background:#FFE18A;padding:7px 12px;border-radius:8px;">Sync now</button>
+</div>
+</sc-if>
+<sc-if value="{{ syncPending }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:12px;background:#EFF7FE;border:1px solid #B4DAFB;border-radius:14px;padding:13px 14px;">
+<div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">{{ pending }} changes ready to sync</div><div style="font-size:11.5px;color:#427CAF;">You're back online</div></div>
+<button onClick="{{ sync }}" style="font-size:12px;font-weight:600;color:#fff;background:#08283B;padding:7px 14px;border-radius:8px;">Sync now</button>
+</div>
+</sc-if>
+<sc-if value="{{ syncDone }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:11px;background:#F3FAF7;border:1px solid #BCF0DA;border-radius:14px;padding:13px 14px;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#057A55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+<div><div style="font-size:13.5px;font-weight:600;color:#08283B;">All caught up</div><div style="font-size:11.5px;color:#057A55;">Last synced to DHIMS2 · 11:01 am</div></div>
+</div>
+</sc-if>
+
+<div style="position:relative;margin-top:16px;">
+<svg style="position:absolute;left:13px;top:50%;transform:translateY(-50%);" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+<input value="{{ query }}" onInput="{{ onSearch }}" placeholder="Search clients or households" style="width:100%;padding:12px 14px 12px 40px;border:1px solid #E5E7EB;border-radius:12px;background:#FDFDFD;font-size:14px;color:#08283B;"/>
+</div>
+
+<sc-if value="{{ notSearching }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;justify-content:space-between;margin:22px 2px 6px;">
+<span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;color:#08283B;">{{ L.followUp }}</span>
+<span style="font-size:11px;font-weight:700;color:#B54000;background:#FFEFE6;padding:3px 9px;border-radius:20px;">{{ priorityCount }}</span>
+</div>
+<div style="font-size:11.5px;color:#9CA3AF;margin:0 2px 12px;">Ranked by NurtureLink from each client's own visit trend</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<sc-for list="{{ priorityList }}" as="item" hint-placeholder-count="3">
+<button onClick="{{ item.open }}" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:13px;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;transition:background .15s;box-shadow:0 1px 2px rgba(0,0,0,.04);" style-hover="background:#EFF7FE;">
+<div style="width:22px;flex:none;text-align:center;font-family:'Poppins';font-weight:700;font-size:13px;color:#9CA3AF;">{{ item.rank }}</div>
+<div style="width:44px;height:44px;flex:none;border-radius:50%;background:{{ item.avBg }};color:{{ item.avFg }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;">{{ item.initials }}</div>
+<div style="flex:1;min-width:0;">
+<div style="display:flex;align-items:center;gap:7px;"><span style="font-weight:600;font-size:15px;color:#08283B;">{{ item.name }}</span><span style="font-size:11px;color:#9CA3AF;">{{ item.meta }}</span></div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:3px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ item.pColor }};flex:none;"></span><span style="font-size:12.5px;color:#374151;">{{ item.flag }}</span></div>
+</div>
+<span style="font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:{{ item.pColor }};background:{{ item.pBg }};padding:4px 8px;border-radius:20px;flex:none;">{{ item.pLabel }}</span>
+</button>
+</sc-for>
+</div>
+<div style="margin:24px 2px 12px;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;color:#08283B;">{{ L.monitoring }}</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<sc-for list="{{ stableList }}" as="item" hint-placeholder-count="2">
+<button onClick="{{ item.open }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;transition:background .15s;" style-hover="background:#EFF7FE;">
+<div style="width:46px;height:46px;flex:none;border-radius:50%;background:{{ item.avBg }};color:{{ item.avFg }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;">{{ item.initials }}</div>
+<div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;gap:7px;"><span style="font-weight:600;font-size:15px;color:#08283B;">{{ item.name }}</span><span style="font-size:11px;color:#9CA3AF;">{{ item.meta }}</span></div><div style="display:flex;align-items:center;gap:6px;margin-top:3px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ item.pColor }};flex:none;"></span><span style="font-size:12.5px;color:#374151;">{{ item.flag }}</span></div></div>
+<span style="font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:{{ item.pColor }};background:{{ item.pBg }};padding:4px 8px;border-radius:20px;flex:none;">{{ item.pLabel }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+<div style="margin:20px 2px 12px;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;color:#08283B;">Results</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<sc-for list="{{ resultList }}" as="item" hint-placeholder-count="2">
+<button onClick="{{ item.open }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;" style-hover="background:#EFF7FE;">
+<div style="width:46px;height:46px;flex:none;border-radius:50%;background:{{ item.avBg }};color:{{ item.avFg }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;">{{ item.initials }}</div>
+<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:15px;color:#08283B;">{{ item.name }}</div><div style="font-size:12.5px;color:#374151;margin-top:2px;">{{ item.flag }}</div></div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ showEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:54px 30px;">
+<div style="width:72px;height:72px;border-radius:50%;background:#ECECEB;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg></div>
+<div style="font-weight:600;font-size:16px;color:#08283B;">No clients found</div>
+<div style="font-size:13px;color:#6B7280;margin-top:6px;line-height:1.5;">Nothing matches "{{ query }}". Try a different name or register a new client.</div>
+</div>
+</sc-if>
+</sc-if>
+</div>
+<div style="flex:none;display:flex;background:#FDFDFD;border-top:1px solid #E5E7EB;padding:8px 6px 22px;">
+<button onClick="{{ toHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#08283B;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span style="font-size:10px;font-weight:600;">{{ L.navHome }}</span></button>
+<button onClick="{{ openReferrals }}" style="flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA3AF;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span style="font-size:10px;font-weight:500;">{{ L.navReferrals }}</span><sc-if value="{{ hasReferrals }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-2px;right:24px;min-width:15px;height:15px;padding:0 3px;border-radius:8px;background:#C81E1E;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;">{{ referralCount }}</span></sc-if></button>
+<button onClick="{{ sync }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA3AF;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-9 9c-2.5 0-4.8-1-6.4-2.6L3 16M3 12a9 9 0 0 1 9-9c2.5 0 4.8 1 6.4 2.6L21 8M3 21v-5h5M21 3v5h-5"/></svg><span style="font-size:10px;font-weight:500;">{{ L.navSync }}</span></button>
+<button onClick="{{ openSettings }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA3AF;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8"/></svg><span style="font-size:10px;font-weight:500;">{{ L.navProfile }}</span></button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ REGISTER ============ -->
+<sc-if value="{{ isRegister }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 16px;display:flex;align-items:center;gap:6px;">
+<button onClick="{{ toHome }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+<span style="font-size:16px;font-weight:600;color:#fff;">Register a client</span>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:18px;">
+<div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin-bottom:10px;">Client type</div>
+<div style="display:flex;gap:9px;">
+<button onClick="{{ setRegChild }}" style="{{ regChildStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></svg>Child</button>
+<button onClick="{{ setRegPreg }}" style="{{ regPregStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><path d="M12 8v7a4 4 0 0 0 4 4M12 15a4 4 0 0 1-2-3.5"/></svg>Pregnant woman</button>
+</div>
+<div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:20px 0 8px;">Full name</div>
+<input value="{{ reg.name }}" onInput="{{ setRegName }}" placeholder="{{ reg.namePh }}" style="width:100%;padding:13px 14px;border:1px solid #D1D5DB;border-radius:12px;background:#FDFDFD;font-size:15px;color:#08283B;"/>
+<div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:20px 0 8px;">Community</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;">
+<sc-for list="{{ regCommunities }}" as="cm" hint-placeholder-count="4"><button onClick="{{ cm.pick }}" style="{{ cm.style }}">{{ cm.name }}</button></sc-for>
+</div>
+<div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:20px 0 8px;">{{ reg.dateLabel }}</div>
+<input value="{{ reg.dob }}" onInput="{{ setRegDob }}" placeholder="{{ reg.datePh }}" style="width:100%;padding:13px 14px;border:1px solid #D1D5DB;border-radius:12px;background:#FDFDFD;font-size:15px;color:#08283B;"/>
+<button onClick="{{ toggleConsent }}" style="display:flex;align-items:flex-start;gap:11px;width:100%;text-align:left;margin-top:20px;padding:14px;border:1.5px solid {{ consentBorder }};background:{{ consentBg }};border-radius:13px;">
+<div style="width:24px;height:24px;flex:none;border-radius:7px;border:2px solid {{ consentDot }};background:{{ consentFill }};display:flex;align-items:center;justify-content:center;">{{ consentCheck }}</div>
+<div><div style="font-size:13.5px;font-weight:600;color:#08283B;">Caregiver consent given</div><div style="font-size:12px;color:#6B7280;margin-top:2px;line-height:1.45;">The caregiver agrees to store these health records on this device and sync them to district systems.</div></div>
+</button>
+<div style="display:flex;align-items:center;gap:8px;margin-top:16px;font-size:11.5px;color:#8C6900;background:#FFF9E6;border-radius:10px;padding:10px 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B48700" stroke-width="2" stroke-linecap="round"><path d="M1 1l22 22M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg><span>Saved on device now · encrypted · syncs later</span></div>
+</div>
+<div style="flex:none;padding:12px 16px 26px;background:#FDFDFD;border-top:1px solid #E5E7EB;">
+<button onClick="{{ saveClient }}" style="width:100%;padding:15px;border-radius:12px;font-size:15px;font-weight:600;color:#fff;background:{{ regSaveBg }};">Save client</button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ CLIENT DETAIL ============ -->
+<sc-if value="{{ isClient }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 18px;">
+<div style="display:flex;align-items:center;gap:6px;">
+<button onClick="{{ toHome }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+<span style="font-size:13px;color:#8D9CA5;">Client record</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;margin-top:8px;padding:0 4px;">
+<div style="width:54px;height:54px;flex:none;border-radius:50%;background:{{ c.avBg }};color:{{ c.avFg }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:19px;">{{ c.initials }}</div>
+<div style="flex:1;"><div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:20px;color:#fff;">{{ c.name }}</div><div style="font-size:13px;color:#92C9F9;margin-top:2px;">{{ c.sub }}</div></div>
+</div>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:16px 18px 26px;margin-top:-8px;border-radius:16px 16px 0 0;background:#F2F4F5;">
+
+<sc-if value="{{ c.referred }}" hint-placeholder-val="{{ false }}">
+<div style="background:{{ c.refBg }};border:1px solid {{ c.refBorder }};border-radius:14px;padding:13px 14px;margin-bottom:14px;">
+<div style="display:flex;align-items:center;gap:9px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ c.refColor }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span style="font-size:13.5px;font-weight:600;color:{{ c.refColor }};">{{ c.refTitle }}</span></div>
+<div style="font-size:12px;color:#374151;margin-top:5px;line-height:1.45;">{{ c.refSub }}</div>
+<sc-if value="{{ c.refCanConfirm }}" hint-placeholder-val="{{ false }}"><button onClick="{{ confirmSeen }}" style="margin-top:10px;font-size:12px;font-weight:600;color:#fff;background:#057A55;padding:8px 14px;border-radius:9px;">Confirm client was seen</button></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasVisits }}" hint-placeholder-val="{{ true }}">
+<!-- risk flag banner -->
+<div style="display:flex;align-items:flex-start;gap:11px;background:{{ c.flagBg }};border:1px solid {{ c.flagBorder }};border-radius:14px;padding:13px 14px;">
+<div style="margin-top:1px;">{{ c.flagIcon }}</div>
+<div><div style="font-size:14px;font-weight:600;color:{{ c.flagColor }};">{{ c.flag }}</div><div style="font-size:12.5px;color:#374151;margin-top:2px;line-height:1.45;">{{ c.flagDetail }}</div></div>
+</div>
+
+<!-- why ranked -->
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:16px;padding:15px 16px;margin-top:14px;">
+<div style="display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:7px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#08283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg><span style="font-size:13px;font-weight:600;color:#08283B;">Why NurtureLink ranked this client</span></div>
+<span style="font-size:10px;font-weight:700;color:{{ c.rankColor }};background:{{ c.rankBg }};padding:3px 8px;border-radius:20px;">{{ c.rankLabel }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:11px;">
+<sc-for list="{{ whySignals }}" as="w" hint-placeholder-count="2"><div style="display:flex;align-items:flex-start;gap:9px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ w.color }};flex:none;margin-top:5px;"></span><span style="font-size:12.5px;color:#374151;line-height:1.45;">{{ w.text }}</span></div></sc-for>
+</div>
+<div style="font-size:11px;color:#9CA3AF;margin-top:10px;line-height:1.45;">Explainable flag from this client's own visits — you decide who to counsel.</div>
+</div>
+
+<!-- trend chart -->
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:16px;padding:16px 14px 10px;margin-top:14px;">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 4px;">
+<span style="font-size:13px;font-weight:600;color:#08283B;">{{ metricLabel }}</span>
+<span style="font-size:11px;color:#6B7280;">across {{ visitCount }} visits</span>
+</div>
+<div style="display:flex;align-items:flex-end;gap:8px;padding:6px 4px 2px;">
+<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:26px;color:#08283B;">{{ latestValStr }}</span>
+<span style="display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:600;color:{{ trendColor }};padding-bottom:5px;">{{ trendArrow }}{{ trendDelta }}</span>
+</div>
+<div style="font-size:11.5px;color:{{ trendColor }};padding:0 4px 8px;">{{ trendNote }}</div>
+{{ trendChart }}
+</div>
+
+<!-- diet diversity -->
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:16px;padding:15px 16px;margin-top:14px;">
+<div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:13px;font-weight:600;color:#08283B;">Diet diversity · last visit</span><span style="font-size:13px;font-weight:700;color:{{ mddColor }};">{{ dietScore }}/8 groups</span></div>
+<div style="display:flex;gap:6px;margin-top:12px;">
+<sc-for list="{{ dietSquares }}" as="g" hint-placeholder-count="8"><div title="{{ g.label }}" style="flex:1;height:34px;border-radius:8px;background:{{ g.bg }};border:1px solid {{ g.bc }};display:flex;align-items:center;justify-content:center;">{{ g.icon }}</div></sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:11px;"><span style="width:8px;height:8px;border-radius:2px;background:{{ mddColor }};"></span><span style="font-size:12px;color:{{ mddColor }};font-weight:500;">{{ mddNote }}</span></div>
+</div>
+
+<!-- visit history -->
+<div style="margin:22px 4px 10px;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;color:#08283B;">Visit history</div>
+<div style="display:flex;flex-direction:column;gap:8px;">
+<sc-for list="{{ visitRows }}" as="v" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:13px;padding:12px 14px;">
+<div style="width:9px;height:9px;border-radius:50%;background:{{ v.dot }};flex:none;"></div>
+<div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">{{ v.date }}</div><div style="font-size:11.5px;color:#6B7280;margin-top:1px;">{{ v.sub }}</div><div style="display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:10px;font-weight:600;color:{{ v.syncColor }};background:{{ v.syncBg }};padding:2px 7px;border-radius:20px;">{{ v.syncIcon }}{{ v.syncLabel }}</div></div>
+<span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:#08283B;">{{ v.primary }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ noVisits }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:46px 30px;">
+<div style="width:72px;height:72px;border-radius:50%;background:#EFF7FE;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#427CAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15h6"/></svg></div>
+<div style="font-weight:600;font-size:16px;color:#08283B;">No visits yet</div>
+<div style="font-size:13px;color:#6B7280;margin-top:6px;line-height:1.5;">Record the first visit to start tracking {{ c.firstName }}'s nutrition trend and build a feeding plan.</div>
+</div>
+</sc-if>
+</div>
+<!-- action bar -->
+<div style="flex:none;display:flex;gap:10px;padding:12px 16px 26px;background:#FDFDFD;border-top:1px solid #E5E7EB;">
+<button onClick="{{ startVisit }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:14px;border:1.5px solid #08283B;border-radius:12px;font-size:14px;font-weight:600;color:#08283B;background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>{{ recordLabel }}</button>
+<sc-if value="{{ hasVisits }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ continuePlan }}" style="flex:1.3;display:flex;align-items:center;justify-content:center;gap:7px;padding:14px;border-radius:12px;font-size:14px;font-weight:600;color:#fff;background:{{ planBtnBg }};">{{ planBtnLabel }}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ VISIT CAPTURE ============ -->
+<sc-if value="{{ isVisit }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 16px;display:flex;align-items:center;gap:6px;">
+<button onClick="{{ toClient }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+<div><div style="font-size:16px;font-weight:600;color:#fff;">New visit</div><div style="font-size:12px;color:#92C9F9;">{{ c.name }} · today</div></div>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:18px;">
+<div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin-bottom:10px;">Measurements</div>
+<div style="display:flex;gap:10px;">
+<div style="flex:1;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:13px;padding:12px;"><div style="font-size:12px;color:#6B7280;">Weight</div><div style="display:flex;align-items:baseline;gap:4px;margin-top:4px;"><input value="{{ vf.weight }}" onInput="{{ setWeight }}" inputmode="decimal" placeholder="0.0" style="width:100%;border:none;font-family:'Poppins';font-weight:700;font-size:22px;color:#08283B;background:none;"/><span style="font-size:12px;color:#9CA3AF;">kg</span></div></div>
+<div style="flex:1;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:13px;padding:12px;"><div style="font-size:12px;color:#6B7280;">Haemoglobin</div><div style="display:flex;align-items:baseline;gap:4px;margin-top:4px;"><input value="{{ vf.hb }}" onInput="{{ setHb }}" inputmode="decimal" placeholder="0.0" style="width:100%;border:none;font-family:'Poppins';font-weight:700;font-size:22px;color:#08283B;background:none;"/><span style="font-size:12px;color:#9CA3AF;">g/dL</span></div></div>
+</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:13px;padding:12px;margin-top:10px;"><div style="font-size:12px;color:#6B7280;">MUAC (mid-upper arm circumference)</div><div style="display:flex;align-items:baseline;gap:4px;margin-top:4px;"><input value="{{ vf.muac }}" onInput="{{ setMuac }}" inputmode="decimal" placeholder="000" style="width:100%;border:none;font-family:'Poppins';font-weight:700;font-size:22px;color:#08283B;background:none;"/><span style="font-size:12px;color:#9CA3AF;">mm</span></div></div>
+
+<div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:22px 0 4px;">Dietary recall · past 24h</div>
+<div style="font-size:12px;color:#9CA3AF;margin-bottom:11px;">Tap every food group the client ate</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+<sc-for list="{{ dietChips }}" as="g" hint-placeholder-count="8">
+<button onClick="{{ g.toggle }}" style="display:flex;align-items:center;gap:9px;padding:12px 11px;border-radius:12px;border:1.5px solid {{ g.bc }};background:{{ g.bg }};text-align:left;transition:all .12s;">
+<div style="width:22px;height:22px;flex:none;border-radius:6px;background:{{ g.dotBg }};display:flex;align-items:center;justify-content:center;">{{ g.check }}</div>
+<span style="font-size:12.5px;font-weight:{{ g.weight }};color:{{ g.fg }};line-height:1.2;">{{ g.label }}</span>
+</button>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;background:{{ mddLiveBg }};border:1px solid {{ mddLiveBorder }};border-radius:12px;padding:12px 14px;">
+<span style="font-size:13px;font-weight:600;color:#08283B;">Diet diversity score</span>
+<span style="font-family:'Poppins';font-weight:700;font-size:16px;color:{{ mddLiveColor }};">{{ vf.dietCount }}/8</span>
+</div>
+<div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:22px 0 4px;">Danger signs</div>
+<div style="font-size:12px;color:#9CA3AF;margin-bottom:11px;">Any of these bypasses counselling and routes to referral</div>
+<div style="display:flex;flex-direction:column;gap:9px;">
+<sc-for list="{{ dangerChips }}" as="d" hint-placeholder-count="5">
+<button onClick="{{ d.toggle }}" style="display:flex;align-items:center;gap:10px;padding:12px 13px;border-radius:12px;border:1.5px solid {{ d.bc }};background:{{ d.bg }};text-align:left;">
+<div style="width:22px;height:22px;flex:none;border-radius:6px;border:2px solid {{ d.dot }};background:{{ d.fill }};display:flex;align-items:center;justify-content:center;">{{ d.check }}</div>
+<span style="font-size:13px;font-weight:{{ d.weight }};color:{{ d.fg }};line-height:1.25;">{{ d.label }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ dangerActive }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;margin-top:12px;background:#FDF2F2;border:1px solid #FBD5D5;border-radius:12px;padding:12px 14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C81E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg><span style="font-size:12.5px;color:#9B1C1C;font-weight:600;">Saving will route to referral — counselling is bypassed</span></div>
+</sc-if>
+</div>
+<div style="flex:none;padding:12px 16px 26px;background:#FDFDFD;border-top:1px solid #E5E7EB;">
+<button onClick="{{ saveVisit }}" style="width:100%;padding:15px;border-radius:12px;font-size:15px;font-weight:600;color:#fff;background:{{ saveVisitBg }};">{{ saveVisitLabel }}</button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ PLAN ============ -->
+<sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 16px;display:flex;align-items:center;gap:6px;">
+<button onClick="{{ toClient }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+<div><div style="font-size:16px;font-weight:600;color:#fff;">Feeding plan</div><div style="font-size:12px;color:#92C9F9;">{{ c.name }}</div></div>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:16px 18px 24px;">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+<span style="display:inline-flex;align-items:center;gap:6px;background:{{ sourceBg }};border:1px solid {{ sourceBorder }};border-radius:20px;padding:5px 11px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="{{ sourceColor }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4.5 4.5 0 0 0-4.5 4.5c0 1 .3 1.8.8 2.5A4.5 4.5 0 0 0 5 13.5 4.5 4.5 0 0 0 9.5 18M12 2a4.5 4.5 0 0 1 4.5 4.5c0 1-.3 1.8-.8 2.5A4.5 4.5 0 0 1 19 13.5 4.5 4.5 0 0 1 14.5 18M12 2v20"/></svg><span style="font-size:11px;font-weight:600;color:{{ sourceColor }};">{{ sourceLabel }}</span></span>
+<span style="display:inline-flex;align-items:center;gap:6px;background:#F3FAF7;border:1px solid #BCF0DA;border-radius:20px;padding:5px 11px;"><span style="width:7px;height:7px;border-radius:50%;background:#057A55;"></span><span style="font-size:11px;font-weight:600;color:#057A55;">{{ p.seasonNote }}</span></span>
+</div>
+<div style="font-size:14px;color:#374151;margin-top:12px;line-height:1.5;">{{ p.targetNote }}</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin:20px 2px 11px;">
+<span style="font-family:'Poppins';font-weight:600;font-size:15px;color:#08283B;">Recommended foods</span>
+<button onClick="{{ regenerate }}" style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#427CAF;background:#EFF7FE;padding:6px 10px;border-radius:20px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-9 9c-2.5 0-4.8-1-6.4-2.6L3 16M3 12a9 9 0 0 1 9-9c2.5 0 4.8 1 6.4 2.6L21 8M3 21v-5h5M21 3v5h-5"/></svg>Regenerate</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<sc-for list="{{ planFoods }}" as="f" hint-placeholder-count="5">
+<div style="display:flex;gap:12px;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:13px 14px;">
+<div style="width:42px;height:42px;flex:none;border-radius:11px;background:{{ f.tint }};display:flex;align-items:center;justify-content:center;"><span style="width:14px;height:14px;border-radius:50%;background:{{ f.gColor }};"></span></div>
+<div style="flex:1;min-width:0;">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-size:14.5px;font-weight:600;color:#08283B;">{{ f.name }}</span><span style="font-size:11px;color:#6B7280;font-style:italic;">{{ f.local }}</span></div>
+<div style="font-size:12px;color:#374151;margin-top:3px;line-height:1.4;">{{ f.why }}</div>
+<span style="display:inline-block;margin-top:7px;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:{{ f.tierColor }};background:{{ f.tierBg }};padding:3px 8px;border-radius:6px;">{{ f.tier }}</span>
+</div>
+<button onClick="{{ f.remove }}" style="width:28px;height:28px;flex:none;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#9CA3AF;" style-hover="background:#FDF2F2;color:#C81E1E;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ canAddFood }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ addFood }}" style="width:100%;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:7px;padding:12px;border:1.5px dashed #B2BCC2;border-radius:13px;font-size:13px;font-weight:600;color:#395362;background:#fff;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add another local food</button>
+</sc-if>
+
+<div style="margin:22px 2px 11px;font-family:'Poppins';font-weight:600;font-size:15px;color:#08283B;">Nutrient adequacy</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:13px;">
+<sc-for list="{{ planAdequacy }}" as="a" hint-placeholder-count="5">
+<div><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:12.5px;font-weight:500;color:#374151;">{{ a.label }}</span><span style="font-size:12.5px;font-weight:700;color:{{ a.color }};">{{ a.pct }}%</span></div><div style="height:8px;border-radius:8px;background:#ECECEB;overflow:hidden;"><div style="height:100%;border-radius:8px;background:{{ a.color }};width:{{ a.pct }}%;transition:width .5s var(--ease-out);"></div></div></div>
+</sc-for>
+<div style="font-size:11px;color:#9CA3AF;padding-top:2px;">Against WHO/IYCF targets for this client · computed on-device</div>
+</div>
+
+<div style="margin:22px 2px 11px;display:flex;align-items:center;gap:7px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#08283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span style="font-family:'Poppins';font-weight:600;font-size:15px;color:#08283B;">Why this plan</span></div>
+<div style="background:#EFF7FE;border:1px solid #B4DAFB;border-radius:15px;padding:15px;display:flex;flex-direction:column;gap:11px;">
+<sc-for list="{{ planRationale }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;gap:9px;"><svg width="16" height="16" style="flex:none;margin-top:2px;" viewBox="0 0 24 24" fill="none" stroke="#427CAF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span style="font-size:12.5px;color:#08283B;line-height:1.5;">{{ r }}</span></div>
+</sc-for>
+</div>
+</div>
+<div style="flex:none;padding:12px 16px 26px;background:#FDFDFD;border-top:1px solid #E5E7EB;">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;padding:0 2px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B48700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span style="font-size:11.5px;color:#8C6900;line-height:1.35;">You remain responsible for this advice — edit it, then approve before sending.</span></div>
+<button onClick="{{ approveAndVoice }}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px;border-radius:12px;font-size:15px;font-weight:600;color:#fff;background:#08283B;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Approve &amp; create voice note</button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ VOICE ============ -->
+<sc-if value="{{ isVoice }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);background:#F2F4F5;">
+<div style="flex:none;background:#08283B;padding:8px 16px 16px;display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:6px;"><button onClick="{{ toPlan }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><div><div style="font-size:16px;font-weight:600;color:#fff;">Voice note</div><div style="font-size:12px;color:#92C9F9;">For {{ c.caregiverName }}</div></div></div>
+<button onClick="{{ toggleLang }}" style="display:flex;align-items:center;background:rgba(255,255,255,.1);border-radius:20px;padding:3px;"><span style="{{ langEnStyle }}">EN</span><span style="{{ langDagStyle }}">Dagbani</span></button>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:18px;">
+<div style="display:inline-flex;align-items:center;gap:6px;background:#F3FAF7;border:1px solid #BCF0DA;border-radius:20px;padding:4px 10px;margin-bottom:12px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#057A55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span style="font-size:11px;font-weight:600;color:#057A55;">Plan approved by you</span></div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:18px;padding:20px 18px;box-shadow:0 1px 3px rgba(0,0,0,.05);">
+<div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#6B7280;">{{ langLabel }} counselling note</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:{{ sourceColor }};background:{{ sourceBg }};padding:3px 8px;border-radius:20px;">{{ sourceLabel }}</span></div>
+<div style="display:flex;align-items:center;gap:2px;height:56px;margin:16px 0 6px;">
+<sc-for list="{{ waveform }}" as="b" hint-placeholder-count="40"><div style="flex:1;border-radius:2px;background:{{ b.color }};height:{{ b.h }}px;transition:background .1s;"></div></sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
+<button onClick="{{ toggleAudio }}" style="width:52px;height:52px;flex:none;border-radius:50%;background:#08283B;display:flex;align-items:center;justify-content:center;">{{ playIcon }}</button>
+<div style="flex:1;"><div style="height:5px;border-radius:5px;background:#ECECEB;overflow:hidden;"><div style="height:100%;background:#FF5A00;border-radius:5px;width:{{ audioPct }}%;"></div></div><div style="display:flex;justify-content:space-between;margin-top:5px;"><span style="font-size:11px;color:#6B7280;">{{ audioTimeStr }}</span><span style="font-size:11px;color:#6B7280;">{{ audioDurStr }}</span></div></div>
+</div>
+</div>
+<div style="margin:20px 4px 9px;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#6B7280;">Transcript</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:16px;font-size:14px;color:#374151;line-height:1.6;">{{ voiceBody }}</div>
+<sc-if value="{{ isDag }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:8px;margin-top:9px;font-size:11.5px;color:#8C6900;background:#FFF9E6;border-radius:10px;padding:9px 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B48700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg><span>Draft translation · pending native-speaker review</span></div>
+</sc-if>
+
+<div style="margin:22px 4px 9px;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#6B7280;">Give it to the caregiver</div>
+<div style="display:flex;flex-direction:column;gap:9px;">
+<button onClick="{{ playAloud }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:13px;padding:13px 14px;" style-hover="background:#EFF7FE;"><div style="width:38px;height:38px;flex:none;border-radius:10px;background:#EFF7FE;display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#427CAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Play aloud now</div><div style="font-size:11.5px;color:#6B7280;">During counselling — no phone needed</div></div></button>
+<button onClick="{{ sendBluetooth }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:13px;padding:13px 14px;" style-hover="background:#EFF7FE;"><div style="width:38px;height:38px;flex:none;border-radius:10px;background:#F6F5FF;display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#7E3AF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11L12 23V1l5.5 5.5-11 11"/></svg></div><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Bluetooth to feature phone</div><div style="font-size:11.5px;color:#6B7280;">Works fully offline · for basic phones</div></div><span style="font-size:9.5px;font-weight:700;color:#057A55;background:#F3FAF7;padding:3px 7px;border-radius:20px;">OFFLINE</span></button>
+<button onClick="{{ sendWhatsapp }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:{{ waBg }};border:1px solid {{ waBorder }};border-radius:13px;padding:13px 14px;" style-hover="background:#EFF7FE;"><div style="width:38px;height:38px;flex:none;border-radius:10px;background:#F3FAF7;display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#057A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Send via WhatsApp</div><div style="font-size:11.5px;color:{{ waSubColor }};">{{ waSub }}</div></div><span style="font-size:9.5px;font-weight:700;color:{{ waTagColor }};background:{{ waTagBg }};padding:3px 7px;border-radius:20px;">{{ waTag }}</span></button>
+</div>
+
+<div style="margin:22px 4px 9px;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#6B7280;">Or record it in your own words</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:16px;display:flex;align-items:center;gap:14px;">
+<button onClick="{{ toggleRecord }}" style="width:52px;height:52px;flex:none;border-radius:50%;background:{{ recBtnBg }};display:flex;align-items:center;justify-content:center;">{{ recIcon }}</button>
+<div style="flex:1;">
+<div style="font-size:13.5px;font-weight:600;color:#08283B;">{{ recTitle }}</div>
+<div style="font-size:11.5px;color:#6B7280;margin-top:2px;">{{ recSub }}</div>
+</div>
+<sc-if value="{{ recorded }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:700;color:#057A55;background:#F3FAF7;padding:4px 8px;border-radius:20px;">READY</span></sc-if>
+</div>
+</div>
+<div style="flex:none;padding:12px 16px 26px;background:#FDFDFD;border-top:1px solid #E5E7EB;">
+<button onClick="{{ deliverVoice }}" style="width:100%;padding:15px;border-radius:12px;font-size:15px;font-weight:600;color:#fff;background:#057A55;">Mark as delivered</button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ REFERRAL GUARDRAIL ============ -->
+<sc-if value="{{ isReferral }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);background:#FDF2F2;">
+<div style="flex:none;background:#9B1C1C;padding:8px 16px 16px;display:flex;align-items:center;gap:6px;">
+<button onClick="{{ toClient }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+<span style="font-size:16px;font-weight:600;color:#fff;">Referral required</span>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:20px 18px 24px;">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+<div style="width:76px;height:76px;border-radius:50%;background:#FDE8E8;display:flex;align-items:center;justify-content:center;animation:pop .35s var(--ease-out);"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#C81E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg></div>
+<div style="font-family:'Poppins';font-weight:700;font-size:20px;color:#9B1C1C;margin-top:16px;">Refer to a health facility now</div>
+<div style="font-size:13.5px;color:#374151;margin-top:8px;line-height:1.5;max-width:290px;">{{ c.name }} shows a danger sign. Nutrition counselling is bypassed — this case needs clinical care.</div>
+</div>
+<div style="background:#FDFDFD;border:1px solid #FBD5D5;border-radius:15px;padding:15px;margin-top:20px;">
+<div style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#C81E1E;">Why this triggered</div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:11px;"><div style="width:9px;height:9px;border-radius:50%;background:#C81E1E;flex:none;"></div><span style="font-size:13.5px;color:#08283B;">{{ c.flagDetail }}</span></div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:9px;"><div style="width:9px;height:9px;border-radius:50%;background:#C81E1E;flex:none;"></div><span style="font-size:13.5px;color:#08283B;">Below WHO/GHS threshold for severe wasting</span></div>
+</div>
+<div style="background:#08283B;border-radius:15px;padding:16px;margin-top:12px;">
+<div style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#92C9F9;">Nearest facility</div>
+<div style="font-size:16px;font-weight:600;color:#fff;margin-top:6px;">Tamale West Hospital</div>
+<div style="font-size:12.5px;color:#8D9CA5;margin-top:2px;">Nutrition rehabilitation unit · 14 km</div>
+</div>
+<div style="background:#F3FAF7;border:1px solid #BCF0DA;border-radius:13px;padding:13px 14px;margin-top:12px;display:flex;gap:10px;"><svg width="18" height="18" style="flex:none;margin-top:1px;" viewBox="0 0 24 24" fill="none" stroke="#057A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span style="font-size:12.5px;color:#08283B;line-height:1.5;">Issuing creates a referral record and a follow-up flag so this child isn't lost after referral.</span></div>
+</div>
+<div style="flex:none;display:flex;gap:10px;padding:12px 16px 26px;background:#FDFDFD;border-top:1px solid #FBD5D5;">
+<button onClick="{{ callFacility }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:14px;border:1.5px solid #C81E1E;border-radius:12px;font-size:14px;font-weight:600;color:#C81E1E;background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call</button>
+<button onClick="{{ issueReferral }}" style="flex:1.4;padding:14px;border-radius:12px;font-size:14px;font-weight:600;color:#fff;background:#C81E1E;">Issue referral</button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ REFERRALS LIST ============ -->
+<sc-if value="{{ isReferrals }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 16px;display:flex;align-items:center;gap:6px;">
+<button onClick="{{ back }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+<div><div style="font-size:16px;font-weight:600;color:#fff;">Referrals</div><div style="font-size:12px;color:#92C9F9;">Post-referral follow-up</div></div>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:16px 18px 24px;">
+<sc-if value="{{ hasAnyReferrals }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:10px;margin-bottom:14px;">
+<div style="flex:1;background:#FFF9E6;border:1px solid #FFE18A;border-radius:14px;padding:13px 14px;"><div style="font-family:'Poppins';font-weight:700;font-size:22px;color:#B48700;">{{ refAwaiting }}</div><div style="font-size:11.5px;color:#8C6900;">Awaiting confirmation</div></div>
+<div style="flex:1;background:#F3FAF7;border:1px solid #BCF0DA;border-radius:14px;padding:13px 14px;"><div style="font-family:'Poppins';font-weight:700;font-size:22px;color:#057A55;">{{ refSeen }}</div><div style="font-size:11.5px;color:#046C4E;">Seen at facility</div></div>
+</div>
+<div style="font-size:11.5px;color:#9CA3AF;margin:0 2px 12px;">Track each severe case until the child is confirmed seen</div>
+<div style="display:flex;flex-direction:column;gap:11px;">
+<sc-for list="{{ referralList }}" as="r" hint-placeholder-count="1">
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;">
+<div style="display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:11px;"><div style="width:42px;height:42px;flex:none;border-radius:50%;background:{{ r.avBg }};color:{{ r.avFg }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">{{ r.initials }}</div><div><div style="font-size:15px;font-weight:600;color:#08283B;">{{ r.name }}</div><div style="font-size:11.5px;color:#6B7280;">{{ r.facility }}</div></div></div><span style="font-size:9.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:{{ r.statusColor }};background:{{ r.statusBg }};padding:4px 8px;border-radius:20px;">{{ r.statusLabel }}</span></div>
+<div style="font-size:12px;color:#374151;margin-top:10px;line-height:1.45;background:#F9FAFB;border-radius:10px;padding:10px 12px;">{{ r.reason }}</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:11px;background:{{ r.stripBg }};border-radius:10px;padding:9px 11px;">{{ r.stripIcon }}<span style="font-size:12px;font-weight:500;color:{{ r.stripColor }};">{{ r.stripText }}</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:11px;"><span style="font-size:11px;color:#9CA3AF;">Issued {{ r.at }}</span><sc-if value="{{ r.canConfirm }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:8px;"><button onClick="{{ r.call }}" style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#08283B;background:#F2F4F5;padding:7px 11px;border-radius:9px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call</button><button onClick="{{ r.confirm }}" style="font-size:11.5px;font-weight:600;color:#fff;background:#057A55;padding:7px 12px;border-radius:9px;">Confirm seen</button></div></sc-if></div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ noReferrals }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:70px 30px;">
+<div style="width:72px;height:72px;border-radius:50%;background:#F3FAF7;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#057A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+<div style="font-weight:600;font-size:16px;color:#08283B;">No open referrals</div>
+<div style="font-size:13px;color:#6B7280;margin-top:6px;line-height:1.5;">Severe cases you refer appear here so you can track them until the child is seen.</div>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ NOTIFICATIONS ============ -->
+<sc-if value="{{ isNotifications }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 16px;display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;gap:6px;"><button onClick="{{ back }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span style="font-size:16px;font-weight:600;color:#fff;">Notifications</span></div>
+<sc-if value="{{ hasUnread }}" hint-placeholder-val="{{ true }}"><button onClick="{{ markAllRead }}" style="font-size:12px;font-weight:600;color:#92C9F9;">Mark all read</button></sc-if>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:16px 18px 24px;">
+<sc-if value="{{ hasToday }}" hint-placeholder-val="{{ true }}">
+<div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:2px 2px 10px;">Today</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<sc-for list="{{ todayList }}" as="n" hint-placeholder-count="3">
+<button onClick="{{ n.onTap }}" style="display:flex;gap:12px;width:100%;text-align:left;padding:13px;background:{{ n.bg }};border:1px solid #E5E7EB;border-radius:14px;" style-hover="background:#EFF7FE;">
+<div style="width:40px;height:40px;flex:none;border-radius:11px;background:{{ n.tint }};display:flex;align-items:center;justify-content:center;">{{ n.icon }}</div>
+<div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;gap:7px;"><span style="font-size:14px;font-weight:600;color:#08283B;">{{ n.title }}</span><sc-if value="{{ n.unread }}" hint-placeholder-val="{{ true }}"><span style="width:7px;height:7px;border-radius:50%;background:#FF5A00;flex:none;"></span></sc-if></div><div style="font-size:12.5px;color:#374151;margin-top:2px;line-height:1.4;">{{ n.body }}</div><div style="font-size:11px;color:#9CA3AF;margin-top:5px;">{{ n.time }}</div></div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ hasEarlier }}" hint-placeholder-val="{{ false }}">
+<div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:20px 2px 10px;">Earlier</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<sc-for list="{{ earlierList }}" as="n" hint-placeholder-count="2">
+<button onClick="{{ n.onTap }}" style="display:flex;gap:12px;width:100%;text-align:left;padding:13px;background:{{ n.bg }};border:1px solid #E5E7EB;border-radius:14px;" style-hover="background:#EFF7FE;">
+<div style="width:40px;height:40px;flex:none;border-radius:11px;background:{{ n.tint }};display:flex;align-items:center;justify-content:center;">{{ n.icon }}</div>
+<div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;gap:7px;"><span style="font-size:14px;font-weight:600;color:#08283B;">{{ n.title }}</span><sc-if value="{{ n.unread }}" hint-placeholder-val="{{ false }}"><span style="width:7px;height:7px;border-radius:50%;background:#FF5A00;flex:none;"></span></sc-if></div><div style="font-size:12.5px;color:#374151;margin-top:2px;line-height:1.4;">{{ n.body }}</div><div style="font-size:11px;color:#9CA3AF;margin-top:5px;">{{ n.time }}</div></div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ noNotifs }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:70px 30px;"><div style="width:72px;height:72px;border-radius:50%;background:#EFF7FE;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#427CAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div style="font-weight:600;font-size:16px;color:#08283B;">You’re all caught up</div><div style="font-size:13px;color:#6B7280;margin-top:6px;line-height:1.5;">Alerts about follow-ups, risk changes and sync will appear here.</div></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ SETTINGS ============ -->
+<sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 18px;">
+<div style="display:flex;align-items:center;gap:6px;"><button onClick="{{ back }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span style="font-size:16px;font-weight:600;color:#fff;">Profile &amp; device</span></div>
+<div style="display:flex;align-items:center;gap:13px;margin-top:8px;padding:0 4px;"><div style="width:50px;height:50px;flex:none;border-radius:50%;background:{{ loginAvBg }};color:#08283B;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;">{{ loginInitials }}</div><div><div style="font-family:'Poppins';font-weight:700;font-size:18px;color:#fff;">{{ loginName }}</div><div style="font-size:12.5px;color:#92C9F9;">{{ loginRole }}</div></div></div>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:16px 18px 24px;">
+<div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:2px 2px 9px;">This device</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;display:flex;flex-direction:column;gap:13px;">
+<div style="display:flex;align-items:center;gap:11px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#427CAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">3 worker profiles</div><div style="font-size:11.5px;color:#6B7280;">Shared compound handset · each logs in with a PIN</div></div></div>
+<div style="height:1px;background:#F0F1F3;"></div>
+<div style="display:flex;align-items:center;gap:11px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B48700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="10" rx="2"/><path d="M22 11v2"/></svg><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Battery {{ battery }}%</div><div style="font-size:11.5px;color:#6B7280;">Heavy syncs pause below 30% unless on power</div></div></div>
+<div style="height:1px;background:#F0F1F3;"></div>
+<div><div style="display:flex;align-items:center;gap:11px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#427CAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Storage · {{ storageUsed }} MB of 250 MB</div><div style="font-size:11.5px;color:#6B7280;">Old audio clears automatically under 10% free</div></div></div><div style="height:7px;border-radius:7px;background:#ECECEB;overflow:hidden;margin-top:10px;"><div style="height:100%;border-radius:7px;background:#427CAF;width:{{ storagePct }}%;"></div></div></div>
+</div>
+
+<div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:20px 2px 9px;">Sync &amp; data</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:6px 15px;">
+<button onClick="{{ toggleAdaptive }}" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:11px 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#08283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Battery-aware sync</div><div style="font-size:11.5px;color:#6B7280;">Large downloads only on power or Wi-Fi</div></div><div style="{{ adaptiveTrack }}"><div style="{{ adaptiveKnob }}"></div></div></button>
+<div style="height:1px;background:#F0F1F3;"></div>
+<div style="display:flex;align-items:center;gap:11px;padding:12px 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#08283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Telemetry queue · {{ telemetryCount }} events</div><div style="font-size:11.5px;color:#6B7280;">Anonymised usage, PII stripped, sent with sync</div></div></div>
+<div style="height:1px;background:#F0F1F3;"></div>
+<button onClick="{{ openTally }}" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:12px 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#08283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17V9M12 17V5M15 17v-4M3 21h18"/></svg><div style="flex:1;"><div style="font-size:13.5px;font-weight:600;color:#08283B;">Monthly tally · DHIMS2</div><div style="font-size:11.5px;color:#6B7280;">Auto-generated CHPS report</div></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+</div>
+
+<div style="font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin:20px 2px 9px;">Interface language</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;">
+<div style="display:flex;gap:8px;">
+<button onClick="{{ setUiEn }}" style="{{ uiEnStyle }}">English</button>
+<button onClick="{{ setUiDag }}" style="{{ uiDagStyle }}">Dagbani</button>
+</div>
+<div style="display:flex;align-items:center;gap:7px;margin-top:11px;font-size:11px;color:#8C6900;"><span style="font-size:9px;font-weight:700;color:#B48700;background:#FFF9E6;padding:2px 6px;border-radius:5px;">BETA</span><span>Interface translation is under native-speaker review</span></div>
+</div>
+
+<button onClick="{{ toSupervisor }}" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;margin-top:20px;" style-hover="background:#EFF7FE;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#08283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span style="flex:1;font-size:13.5px;font-weight:600;color:#08283B;">District overview</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+
+<button onClick="{{ logout }}" style="width:100%;margin-top:14px;padding:14px;border-radius:12px;font-size:14px;font-weight:600;color:#C81E1E;background:#FDF2F2;border:1px solid #FBD5D5;">Sign out</button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ MONTHLY TALLY (DHIMS2) ============ -->
+<sc-if value="{{ isTally }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div style="flex:none;background:#08283B;padding:8px 16px 16px;display:flex;align-items:center;gap:6px;">
+<button onClick="{{ back }}" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+<div><div style="font-size:16px;font-weight:600;color:#fff;">Monthly tally</div><div style="font-size:12px;color:#92C9F9;">DHIMS2 reporting</div></div>
+</div>
+<div class="nsb" style="flex:1;overflow-y:auto;padding:16px 18px 24px;">
+<div style="display:inline-flex;align-items:center;gap:6px;background:#EFF7FE;border:1px solid #B4DAFB;border-radius:20px;padding:5px 11px;"><span style="width:7px;height:7px;border-radius:50%;background:#427CAF;"></span><span style="font-size:11.5px;font-weight:600;color:#427CAF;">November 2026 · Kukuo CHPS zone</span></div>
+<div style="font-size:13px;color:#374151;margin-top:12px;line-height:1.5;">Auto-tallied from the visits you recorded this month — no manual counting at month-end.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;">
+<sc-for list="{{ tallyCards }}" as="t" hint-placeholder-count="6">
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:14px;"><div style="font-size:11.5px;color:#6B7280;">{{ t.label }}</div><div style="font-family:'Poppins';font-weight:700;font-size:24px;color:{{ t.color }};margin-top:3px;">{{ t.value }}</div></div>
+</sc-for>
+</div>
+<div style="margin:22px 2px 11px;font-family:'Poppins';font-weight:600;font-size:15px;color:#08283B;">DHIMS2 reporting lines</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:4px 15px;">
+<sc-for list="{{ tallyLines }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #F0F1F3;"><span style="font-size:13px;color:#374151;">{{ r.label }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:#08283B;">{{ r.value }}</span></div>
+</sc-for>
+</div>
+</div>
+<div style="flex:none;display:flex;gap:10px;padding:12px 16px 26px;background:#FDFDFD;border-top:1px solid #E5E7EB;">
+<button onClick="{{ exportCsv }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:14px;border:1.5px solid #08283B;border-radius:12px;font-size:14px;font-weight:600;color:#08283B;background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>CSV</button>
+<button onClick="{{ sendDhims }}" style="flex:1.4;padding:14px;border-radius:12px;font-size:14px;font-weight:600;color:#fff;background:#08283B;">Send to DHIMS2</button>
+</div>
+</div>
+</sc-if>
+
+<!-- ============ SUPERVISOR ============ -->
+<sc-if value="{{ isSupervisor }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s var(--ease-out);">
+<div class="nsb" style="flex:1;overflow-y:auto;">
+<div style="background:#08283B;padding:10px 18px 22px;">
+<div style="display:flex;align-items:center;justify-content:space-between;">
+<div><div style="font-size:13px;color:#8D9CA5;">District overview</div><div style="font-family:'Poppins';font-weight:700;font-size:21px;color:#fff;">Sagnarigu District</div></div>
+<div style="width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;"><svg width="18" height="17" viewBox="0 0 36 34" fill="none"><path d="M33.43 29.59H2.07C.89 29.59 0 30.5 0 31.68c0 .89.89 1.78 2.07 1.78h31.36c.89 0 1.78-.89 1.78-1.78 0-1.18-.89-2.09-1.78-2.09zM33.43 14.81H2.07C.89 14.81 0 15.69 0 16.58c0 1.18.89 2.07 2.07 2.07h31.36c.89 0 1.78-.89 1.78-2.07 0-.89-.89-1.77-1.78-1.77zM2.07 3.84h31.36c.89 0 1.78-.89 1.78-2.07C35.21.89 34.32 0 33.43 0H2.07C.89 0 0 .89 0 1.77c0 1.18.89 2.07 2.07 2.07z" fill="#FF5A00"/></svg></div>
+</div>
+<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border-radius:20px;padding:5px 11px;margin-top:12px;"><span style="font-size:11.5px;color:#92C9F9;font-weight:500;">November 2026 · 6 CHPS zones</span></div>
+</div>
+<div style="padding:16px 18px 24px;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;"><div style="font-size:12px;color:#6B7280;">Clients tracked</div><div style="font-family:'Poppins';font-weight:700;font-size:26px;color:#08283B;margin-top:3px;">128</div></div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;"><div style="font-size:12px;color:#6B7280;">High priority</div><div style="display:flex;align-items:baseline;gap:6px;"><div style="font-family:'Poppins';font-weight:700;font-size:26px;color:#B54000;margin-top:3px;">14</div><span style="font-size:11px;color:#B54000;">follow-up</span></div></div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;"><div style="font-size:12px;color:#6B7280;">Referrals · Nov</div><div style="font-family:'Poppins';font-weight:700;font-size:26px;color:#C81E1E;margin-top:3px;">{{ supReferrals }}</div></div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:15px;"><div style="font-size:12px;color:#6B7280;">Avg diet diversity</div><div style="display:flex;align-items:baseline;gap:5px;"><div style="font-family:'Poppins';font-weight:700;font-size:26px;color:#057A55;margin-top:3px;">3.8</div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#057A55" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></div></div>
+</div>
+
+<div style="margin:22px 2px 12px;font-family:'Poppins';font-weight:600;font-size:15px;color:#08283B;">Follow-up load by zone</div>
+<div style="background:#FDFDFD;border:1px solid #E5E7EB;border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:13px;">
+<sc-for list="{{ communities }}" as="z" hint-placeholder-count="4">
+<div><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:12.5px;color:#374151;font-weight:500;">{{ z.name }}</span><span style="font-size:12px;color:#6B7280;">{{ z.count }} clients</span></div><div style="height:8px;border-radius:8px;background:#ECECEB;overflow:hidden;"><div style="height:100%;border-radius:8px;background:{{ z.color }};width:{{ z.pct }}%;"></div></div></div>
+</sc-for>
+</div>
+
+<div style="margin:22px 2px 12px;font-family:'Poppins';font-weight:600;font-size:15px;color:#08283B;">Field officers</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<sc-for list="{{ officers }}" as="o" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px;background:#FDFDFD;border:1px solid #E5E7EB;border-radius:14px;padding:13px 14px;">
+<div style="width:42px;height:42px;flex:none;border-radius:50%;background:{{ o.avBg }};color:{{ o.avFg }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">{{ o.initials }}</div>
+<div style="flex:1;"><div style="font-size:14px;font-weight:600;color:#08283B;">{{ o.name }}</div><div style="font-size:11.5px;color:#6B7280;margin-top:1px;">{{ o.zone }} · {{ o.caseload }} clients</div></div>
+<span style="font-size:10px;font-weight:700;color:{{ o.syncColor }};background:{{ o.syncBg }};padding:4px 8px;border-radius:20px;">{{ o.syncLabel }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="flex:none;display:flex;background:#FDFDFD;border-top:1px solid #E5E7EB;padding:8px 6px 22px;">
+<button style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#08283B;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span style="font-size:10px;font-weight:600;">{{ L.navOverview }}</span></button>
+<button onClick="{{ toHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA3AF;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span style="font-size:10px;font-weight:500;">{{ L.navField }}</span></button>
+<button onClick="{{ openReferrals }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA3AF;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span style="font-size:10px;font-weight:500;">{{ L.navReferrals }}</span></button>
+<button onClick="{{ openSettings }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA3AF;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8"/></svg><span style="font-size:10px;font-weight:500;">{{ L.navProfile }}</span></button>
+</div>
+</div>
+</sc-if>
+
+<!-- toast -->
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;bottom:96px;left:50%;transform:translateX(-50%);background:#08283B;color:#fff;font-size:13px;font-weight:500;padding:12px 18px;border-radius:12px;box-shadow:0 12px 28px -8px rgba(0,0,0,.5);z-index:80;animation:toastIn .25s var(--ease-out);max-width:300px;text-align:center;">{{ toast }}</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'splash', role: 'cho', lang: 'en', uiLang: 'en',
+    pin: '', selectedId: 'amina', prev: 'home', query: '',
+    visit: { weight: '', hb: '', muac: '', diet: [], danger: [] },
+    reg: { type: 'child', name: '', community: 'Kukuo', dob: '', consent: false },
+    planEdits: {},
+    audioPlaying: false, audioT: 0,
+    recording: false, recordT: 0, recorded: false,
+    offline: true, syncing: false, adaptive: true,
+    telemetry: 14, storageUsed: 148, battery: 62, delivered: 0,
+    toast: ''
+  };
+
+  GROUPS = [
+    { id: 'grains', label: 'Grains & roots', color: '#B48700' },
+    { id: 'legumes', label: 'Legumes & nuts', color: '#B54000' },
+    { id: 'dairy', label: 'Dairy', color: '#427CAF' },
+    { id: 'flesh', label: 'Meat & fish', color: '#036672' },
+    { id: 'eggs', label: 'Eggs', color: '#BF125D' },
+    { id: 'vita', label: 'Vit-A veg & fruit', color: '#057A55' },
+    { id: 'veg', label: 'Other veg & fruit', color: '#6C2BD9' },
+    { id: 'breast', label: 'Breastmilk', color: '#559FE0' }
+  ];
+
+  DANGERS = [
+    { id: 'oedema', label: 'Swelling of both feet (bilateral oedema)' },
+    { id: 'nofeed', label: 'Not feeding or vomiting everything' },
+    { id: 'convuls', label: 'Convulsions or unusually sleepy' },
+    { id: 'fever', label: 'High fever or body very cold' },
+    { id: 'bleeding', label: 'Bleeding or severe pain (obstetric)' }
+  ];
+
+  T = {
+    en: { greeting: 'Good morning', followUp: 'Needs follow-up today', monitoring: 'Stable · monitoring', navHome: 'Home', navReferrals: 'Referrals', navSync: 'Sync', navProfile: 'Profile', navOverview: 'Overview', navField: 'Field' },
+    dag: { greeting: 'Dasiba', followUp: 'Bɛn bɔri sɔŋsim zuŋɔ', monitoring: 'Bɛn be alaafee', navHome: 'Yili', navReferrals: 'Referral', navSync: 'Sync', navProfile: 'Amaŋ', navOverview: 'Overview', navField: 'Tuma' }
+  };
+
+  seed() {
+    return [
+      { id: 'amina', name: 'Amina Mahama', type: 'pregnant', age: 26, community: 'Kukuo', caregiver: 'Amina', priority: 'high', metric: 'hb', severe: false, referred: false, flag: 'Falling haemoglobin', flagDetail: 'Hb 11.2 \u2192 9.6 g/dL over 3 visits \u00b7 mild anaemia', trendNote: 'Falling \u2014 approaching anaemia threshold (11.0 g/dL)', trendArrow: 'down', trendColor: '#C81E1E',
+        visits: [
+          { date: '12th Sep, 2026', hb: 11.2, weight: 58.4, muac: 242, diet: ['grains', 'legumes', 'veg'], synced: true, owner: 'You' },
+          { date: '10th Oct, 2026', hb: 10.4, weight: 59.1, muac: 238, diet: ['grains', 'legumes'], synced: true, owner: 'You' },
+          { date: '7th Nov, 2026', hb: 9.6, weight: 59.8, muac: 235, diet: ['grains', 'legumes'], synced: false, owner: 'You' } ] },
+      { id: 'rahim', name: 'Baby Rahim', type: 'child', age: '14 mo', community: 'Sagnarigu', caregiver: 'Fuseina A.', priority: 'high', metric: 'weight', severe: false, referred: false, flag: 'Flat weight-for-age', flagDetail: 'No weight gain in 2 months \u00b7 only 2 food groups', trendNote: 'Weight has plateaued \u2014 growth faltering', trendArrow: 'flat', trendColor: '#B48700',
+        visits: [
+          { date: '15th Sep, 2026', weight: 8.1, muac: 132, diet: ['grains', 'legumes', 'vita'], synced: true, owner: 'You' },
+          { date: '13th Oct, 2026', weight: 8.2, muac: 129, diet: ['grains', 'legumes'], synced: true, owner: 'You' },
+          { date: '9th Nov, 2026', weight: 8.2, muac: 128, diet: ['grains', 'legumes'], synced: false, owner: 'You' } ] },
+      { id: 'latif', name: 'Baby Latif', type: 'child', age: '9 mo', community: 'Gizaa', caregiver: 'Memuna I.', priority: 'urgent', metric: 'muac', severe: true, referred: true, flag: 'Severe wasting risk', flagDetail: 'MUAC 108 mm \u2014 below the 115 mm red-zone threshold', trendNote: 'MUAC in the red zone \u2014 danger sign', trendArrow: 'down', trendColor: '#C81E1E',
+        visits: [
+          { date: '18th Oct, 2026', weight: 6.4, muac: 118, diet: ['grains', 'legumes'], synced: true, owner: 'You' },
+          { date: '12th Nov, 2026', weight: 6.1, muac: 108, diet: ['grains'], synced: false, owner: 'You' } ] },
+      { id: 'zeinab', name: 'Zeinab Osman', type: 'pregnant', age: 31, community: 'Kukuo', caregiver: 'Zeinab', priority: 'stable', metric: 'hb', severe: false, referred: false, flag: 'On track \u00b7 Hb stable', flagDetail: 'Hb steady at 11.8 g/dL', trendNote: 'Stable and healthy', trendArrow: 'up', trendColor: '#057A55',
+        visits: [
+          { date: '14th Sep, 2026', hb: 11.6, weight: 62.1, muac: 258, diet: ['grains', 'legumes', 'flesh', 'veg'], synced: true, owner: 'You' },
+          { date: '12th Nov, 2026', hb: 11.8, weight: 63.4, muac: 260, diet: ['grains', 'legumes', 'flesh', 'vita', 'veg'], synced: true, owner: 'You' } ] },
+      { id: 'sadia', name: 'Baby Sadia', type: 'child', age: '20 mo', community: 'Sagnarigu', caregiver: 'Ayishetu M.', priority: 'stable', metric: 'weight', severe: false, referred: false, flag: 'Diet improving', flagDetail: 'Diet diversity up from 3 to 5 groups', trendNote: 'Gaining well', trendArrow: 'up', trendColor: '#057A55',
+        visits: [
+          { date: '16th Sep, 2026', weight: 10.2, muac: 145, diet: ['grains', 'legumes', 'vita'], synced: true, owner: 'You' },
+          { date: '10th Nov, 2026', weight: 10.9, muac: 148, diet: ['grains', 'legumes', 'flesh', 'vita', 'veg'], synced: true, owner: 'You' } ] }
+    ];
+  }
+
+  PLANS = {
+    amina: {
+      seasonNote: 'In season \u00b7 November \u00b7 Kukuo zone',
+      targetNote: 'Amina\u2019s haemoglobin has fallen to 9.6 g/dL. This plan closes an iron & folate gap using foods available and affordable in her locality this month.',
+      foods: [
+        { name: 'Moringa leaves', local: 'Zogale', group: 'vita', tier: 'Free / garden', why: 'Rich in iron & folate; grows around the compound.' },
+        { name: 'Cowpea (beans)', local: 'Tuya', group: 'legumes', tier: 'Low cost', why: 'Iron & protein; stores well through the dry season.' },
+        { name: 'Groundnut paste', local: 'Sinkpaŋ zim', group: 'legumes', tier: 'Low cost', why: 'Energy, protein & folate; add to soups and koko.' },
+        { name: 'Orange sweet potato', local: 'Wulijɛɣu', group: 'vita', tier: 'Market', why: 'Vitamin A & energy; in season and cheap now.' },
+        { name: 'Dawadawa', local: 'Dawadawa', group: 'legumes', tier: 'Low cost', why: 'Iron-rich condiment used in most local dishes.' } ],
+      alternates: [
+        { name: 'Boiled egg', local: 'Gala', group: 'eggs', tier: 'Market', why: 'Extra protein & iron when affordable this week.' },
+        { name: 'Baobab fruit', local: 'Tuisim', group: 'veg', tier: 'Free / garden', why: 'Vitamin C to boost iron absorption from greens.' } ],
+      adequacy: [ { label: 'Iron', pct: 94 }, { label: 'Folate', pct: 88 }, { label: 'Vitamin C', pct: 76 }, { label: 'Energy', pct: 82 }, { label: 'Protein', pct: 90 } ],
+      rationale: [ 'Hb of 9.6 g/dL is mild anaemia, above the severe threshold \u2014 so nutrition counselling is appropriate rather than referral.', 'Every food is locally available and affordable in Kukuo this month; none rely on the market price of meat.', 'Pairing zogale and beans with an orange fruit or sweet potato improves how much iron the body absorbs.' ],
+      voiceEn: 'Good morning, Amina. Your blood level has dropped a little this month, so it is important to eat iron-rich foods often. Cook zogale leaves, beans and groundnut most days, and add orange sweet potato for strength. All of these foods are in the market now and cost very little. Please come to the clinic for your next check-up.',
+      voiceDag: 'Dasiba, Amina. A ʒim maa siɣindi bɛla goli ŋɔ, dinzuɣu di simdi ni a dirila bindira din mali ʒim yɛlni. Dim zogale, tuya ni sinkpaŋ dabsili kam, ka pahi wulijɛɣu ni a mali yaa. Bindira ŋɔ zaa bela daa ni pumpɔŋɔ ka bi mali daa. Labmi na ti nya alaafee kariti.' },
+    rahim: {
+      seasonNote: 'In season \u00b7 November \u00b7 Sagnarigu',
+      targetNote: 'Rahim\u2019s weight has been flat for two months on only 2 food groups. This plan adds energy, protein and diet diversity from foods available now.',
+      foods: [
+        { name: 'Enriched koko', local: 'Koko + sinkpaŋ', group: 'grains', tier: 'Low cost', why: 'Millet porridge with groundnut paste for extra energy.' },
+        { name: 'Egg', local: 'Gala', group: 'eggs', tier: 'Market', why: 'Complete protein; one a day supports steady growth.' },
+        { name: 'Mashed cowpea', local: 'Tuya', group: 'legumes', tier: 'Low cost', why: 'Protein & iron, softened for a young child.' },
+        { name: 'Moringa leaves', local: 'Zogale', group: 'vita', tier: 'Free / garden', why: 'Adds vitamins A & C and a whole new food group.' },
+        { name: 'Small dried fish', local: 'Amani', group: 'flesh', tier: 'Low cost', why: 'Protein, iron & zinc; ground into powder over food.' } ],
+      alternates: [
+        { name: 'Ripe pawpaw', local: 'Boɣu', group: 'vita', tier: 'Market', why: 'Soft vitamin-A fruit babies accept easily.' },
+        { name: 'Bambara beans', local: 'Suya', group: 'legumes', tier: 'Low cost', why: 'Another protein source to rotate through the week.' } ],
+      adequacy: [ { label: 'Energy', pct: 86 }, { label: 'Protein', pct: 92 }, { label: 'Iron', pct: 80 }, { label: 'Vitamin A', pct: 88 }, { label: 'Diet diversity', pct: 70 } ],
+      rationale: [ 'No weight gain over two months with a diet of only 2 food groups is growth faltering, not a severe case \u2014 nutrition support is the right response.', 'The plan lifts Rahim from 2 to 5 food groups, crossing the WHO minimum diet-diversity mark.', 'All items are low cost and available in Sagnarigu now; dried-fish powder and egg add protein without the price of fresh meat.' ],
+      voiceEn: 'Good morning. Rahim\u2019s weight has stayed the same for two months, so he needs more variety in his meals. Give him enriched koko with groundnut paste, mashed beans, egg and zogale every day, and a little dried-fish powder over his food. These foods are available now and low cost. Please bring him back next month so we can weigh him again.',
+      voiceDag: 'Dasiba. Rahim tibigginsim maa bi paɣi chira ayi ŋɔ, dinzuɣu o bɔri bindira balibu balibu. Tim o koko din mali sinkpaŋ, tuya din nyɔɣisi, gala ni zogale dabsili kam, ka pahi amani zim o bindirigu zuɣu. Bindira ŋɔ bela daa ni ka bi mali daa. Labmi na ti mali o kariti biɛɣu.' }
+  };
+
+  componentDidMount() {
+    if (!this.state.clients) this.setState({ clients: this.seed(), referrals: [
+      { id: 'r1', clientId: 'latif', name: 'Baby Latif', type: 'child', reason: 'MUAC 108 mm \u2014 below the 115 mm severe-wasting threshold', facility: 'Tamale West Hospital', status: 'issued', at: '12th Nov, 2026', due: '15th Nov, 2026' },
+      { id: 'r0', clientId: 'fatima', name: 'Baby Fatima', type: 'child', reason: 'Bilateral oedema (danger sign) recorded at visit', facility: 'Tamale West Hospital', status: 'seen', at: '2nd Nov, 2026', seenAt: '5th Nov, 2026' }
+    ], notifications: this.seedNotifs() });
+    this._sp = setTimeout(() => this.setState(s => s.screen === 'splash' ? { screen: 'login' } : {}), 1900);
+  }
+  componentWillUnmount() { clearTimeout(this._sp); clearInterval(this._au); clearInterval(this._rec); clearTimeout(this._t); }
+
+  clients() { return this.state.clients || this.seed(); }
+  seedNotifs() {
+    return [
+      { id: 'n1', kind: 'referral', title: 'Follow-up due: Baby Latif', body: 'Confirm the referral was seen at Tamale West Hospital.', time: '20 min ago', read: false, group: 'today', target: 'referrals' },
+      { id: 'n2', kind: 'risk', title: 'Priority raised: Amina Mahama', body: 'Haemoglobin fell to 9.6 g/dL \u2014 counselling recommended.', time: '2 h ago', read: false, group: 'today', target: 'client:amina' },
+      { id: 'n3', kind: 'sync', title: '3 records pending sync', body: 'They\u2019ll upload automatically when you\u2019re back online.', time: '3 h ago', read: false, group: 'today', target: 'sync' },
+      { id: 'n4', kind: 'bundle', title: 'New seasonal bundle available', body: 'v1.4 \u00b7 November foods for Kukuo zone. Syncs on Wi-Fi.', time: 'Yesterday', read: true, group: 'earlier', target: '' },
+      { id: 'n5', kind: 'voice', title: 'Dagbani voice pack updated', body: 'Refreshed counselling phrases were added.', time: '2 days ago', read: true, group: 'earlier', target: '' }
+    ];
+  }
+  go(screen) { return () => this.setState({ screen }); }
+  toast(m) { this.setState({ toast: m }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: '' }), 2400); }
+  current() { return this.clients().find(c => c.id === this.state.selectedId) || this.clients()[0]; }
+  patchClient(id, patch) { this.setState({ clients: this.clients().map(c => c.id === id ? { ...c, ...patch } : c) }); }
+
+  pressKey(d) {
+    let pin = this.state.pin;
+    if (pin.length >= 4) return;
+    pin += d;
+    this.setState({ pin });
+    if (pin.length === 4) setTimeout(() => this.setState({ pin: '', screen: this.state.role === 'sup' ? 'supervisor' : 'home' }), 260);
+  }
+  backspace() { this.setState({ pin: this.state.pin.slice(0, -1) }); }
+
+  onSearch(e) { this.setState({ query: e.target.value }); }
+  selectClient(id) { this.setState({ selectedId: id, screen: 'client' }); }
+
+  openRegister() { this.setState({ reg: { type: 'child', name: '', community: 'Kukuo', dob: '', consent: false }, screen: 'register' }); }
+  setReg(k, v) { this.setState({ reg: { ...this.state.reg, [k]: v } }); }
+  saveClient() {
+    const r = this.state.reg;
+    if (!r.name.trim() || !r.consent) { this.toast('Add a name and confirm consent first'); return; }
+    const id = 'c' + Date.now();
+    const nc = { id, name: r.name.trim(), type: r.type, age: r.type === 'child' ? 'new' : '\u2014', community: r.community, caregiver: r.name.trim(), priority: 'new', metric: 'weight', severe: false, referred: false, flag: 'New client \u00b7 awaiting first visit', flagDetail: '', visits: [] };
+    this.setState({ clients: [...this.clients(), nc], selectedId: id, screen: 'client' });
+    this.toast('Client registered \u00b7 saved on device');
+  }
+
+  startVisit() { this.setState({ visit: { weight: '', hb: '', muac: '', diet: [], danger: [] }, screen: 'visit' }); }
+  setVF(k, v) { this.setState({ visit: { ...this.state.visit, [k]: v } }); }
+  toggleDiet(id) { const d = this.state.visit.diet; this.setState({ visit: { ...this.state.visit, diet: d.includes(id) ? d.filter(x => x !== id) : [...d, id] } }); }
+  toggleDanger(id) { const d = this.state.visit.danger; this.setState({ visit: { ...this.state.visit, danger: d.includes(id) ? d.filter(x => x !== id) : [...d, id] } }); }
+  saveVisit() {
+    const c = this.current(), v = this.state.visit;
+    const muac = parseFloat(v.muac) || 0, hb = v.hb ? parseFloat(v.hb) : null;
+    const severe = v.danger.length > 0 || (muac > 0 && muac < 115) || (hb != null && hb > 0 && hb < 7);
+    const nv = { date: '12th Nov, 2026', weight: parseFloat(v.weight) || c.visits[c.visits.length - 1]?.weight || 0, hb: hb != null ? hb : (c.metric === 'hb' ? 0 : null), muac: muac || 235, diet: v.diet, danger: v.danger, synced: false, owner: 'You' };
+    const patch = { visits: [...c.visits, nv] };
+    if (severe) {
+      patch.severe = true; patch.priority = 'urgent'; patch.metric = muac > 0 ? 'muac' : c.metric;
+      patch.flag = 'Danger sign \u2014 referral needed';
+      patch.flagDetail = v.danger.length ? 'Danger sign recorded at this visit' : (muac > 0 && muac < 115 ? 'MUAC ' + Math.round(muac) + ' mm \u2014 below the 115 mm threshold' : 'Hb below the severe-anaemia threshold');
+      patch.trendColor = '#C81E1E'; patch.trendArrow = 'down'; patch.trendNote = 'Danger sign \u2014 needs clinical care';
+    } else if (c.priority === 'new') patch.priority = 'stable';
+    this.patchClient(c.id, patch);
+    this.setState({ screen: severe ? 'referral' : 'client', telemetry: this.state.telemetry + 1 });
+    this.toast(severe ? 'Danger sign \u2014 routing to referral' : 'Visit saved \u00b7 draft locked to you until sync');
+  }
+
+  continuePlan() { this.setState({ screen: this.current().severe ? 'referral' : 'plan' }); }
+  removeFood(name) { const c = this.current(); const e = this.state.planEdits[c.id] || { removed: [], added: [] }; this.setState({ planEdits: { ...this.state.planEdits, [c.id]: { ...e, removed: [...e.removed, name] } } }); this.toast('Removed from plan'); }
+  addFood() { const c = this.current(); const e = this.state.planEdits[c.id] || { removed: [], added: [] }; const alts = (this.PLANS[c.id] || {}).alternates || []; const next = alts.find(a => !e.added.includes(a.name)); if (!next) { this.toast('No more local alternates'); return; } this.setState({ planEdits: { ...this.state.planEdits, [c.id]: { ...e, added: [...e.added, next.name] } } }); this.toast('Added ' + next.name); }
+  regenerate() { this.setState({ telemetry: this.state.telemetry + 1 }); this.toast('Plan regenerated from current data'); }
+  approveAndVoice() { clearInterval(this._au); this.setState({ audioT: 0, audioPlaying: false, screen: 'voice', telemetry: this.state.telemetry + 1 }); }
+
+  toggleAudio() {
+    if (this.state.audioPlaying) { clearInterval(this._au); this.setState({ audioPlaying: false }); return; }
+    if (this.state.audioT >= 38) this.setState({ audioT: 0 });
+    this.setState({ audioPlaying: true, telemetry: this.state.telemetry + 1 });
+    this._au = setInterval(() => this.setState(s => { const t = s.audioT + 1; if (t >= 38) { clearInterval(this._au); return { audioT: 38, audioPlaying: false }; } return { audioT: t }; }), 420);
+  }
+  toggleLang() { this.setState({ lang: this.state.lang === 'en' ? 'dag' : 'en' }); }
+  toggleRecord() {
+    if (this.state.recording) { clearInterval(this._rec); this.setState({ recording: false, recorded: true }); this.toast('Your recording is ready'); return; }
+    this.setState({ recording: true, recordT: 0 });
+    this._rec = setInterval(() => this.setState(s => ({ recordT: s.recordT + 1 })), 1000);
+  }
+  playAloud() { this.setState({ telemetry: this.state.telemetry + 1 }); this.toast('Playing note aloud for the caregiver'); }
+  sendBluetooth() { this.toast('Sent over Bluetooth to feature phone'); }
+  sendWhatsapp() { if (this.state.offline) { this.toast('WhatsApp needs a connection \u2014 queued to send'); return; } this.toast('Shared via WhatsApp'); }
+  deliverVoice() { clearInterval(this._au); this.setState({ audioPlaying: false, screen: 'client', delivered: this.state.delivered + 1 }); this.toast('Voice note delivered to caregiver'); }
+
+  sync() { if (this.state.syncing) return; this.setState({ syncing: true }); setTimeout(() => { this.setState({ syncing: false, offline: false, telemetry: 0, clients: this.clients().map(c => ({ ...c, visits: c.visits.map(v => ({ ...v, synced: true })) })) }); this.toast('All caught up \u00b7 synced to DHIMS2'); }, 1900); }
+  toggleOffline() { this.setState({ offline: !this.state.offline }); }
+  toggleAdaptive() { this.setState({ adaptive: !this.state.adaptive }); }
+  setUiLang(l) { this.setState({ uiLang: l }); }
+  logout() { clearInterval(this._au); this.setState({ screen: 'login', pin: '' }); }
+
+  openReferrals() { this.setState({ prev: this.state.role === 'sup' ? 'supervisor' : 'home', screen: 'referrals' }); }
+  openSettings() { this.setState({ prev: this.state.role === 'sup' ? 'supervisor' : 'home', screen: 'settings' }); }
+  openTally() { this.setState({ prev: this.state.role === 'sup' ? 'supervisor' : 'home', screen: 'tally' }); }
+  exportCsv() { this.toast('Monthly tally CSV downloaded'); }
+  sendDhims() { this.setState({ offline: false }); this.toast('Tally sent to DHIMS2 Web API'); }
+  openNotifications() { this.setState({ prev: this.state.role === 'sup' ? 'supervisor' : 'home', screen: 'notifications' }); }
+  markAllRead() { this.setState({ notifications: (this.state.notifications || []).map(n => ({ ...n, read: true })) }); this.toast('All caught up'); }
+  notifTap(id) {
+    const src = this.state.notifications || [];
+    const n = src.find(x => x.id === id);
+    this.setState({ notifications: src.map(x => x.id === id ? { ...x, read: true } : x) });
+    if (!n || !n.target) return;
+    if (n.target === 'referrals') this.setState({ screen: 'referrals' });
+    else if (n.target === 'sync') this.sync();
+    else if (n.target.indexOf('client:') === 0) this.setState({ selectedId: n.target.split(':')[1], screen: 'client' });
+  }
+  back() { this.setState({ screen: this.state.prev || 'home' }); }
+  callFacility() { this.toast('Calling Tamale West Hospital\u2026'); }
+  issueReferral() {
+    const c = this.current();
+    const ref = { id: 'r' + Date.now(), clientId: c.id, name: c.name, type: c.type, reason: c.flagDetail, facility: 'Tamale West Hospital', status: 'issued', at: '12th Nov, 2026' };
+    this.patchClient(c.id, { referred: true });
+    this.setState({ referrals: [...(this.state.referrals || []), ref], screen: 'client', telemetry: this.state.telemetry + 1 });
+    this.toast('Referral issued \u00b7 tracked in Referrals');
+  }
+  confirmSeen(clientId) { this.setState({ referrals: (this.state.referrals || []).map(r => r.clientId === clientId ? { ...r, status: 'seen' } : r) }); this.toast('Marked as seen at facility'); }
+
+  initials(name) { return name.replace('Baby ', '').split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase(); }
+  avStyle(type) { return type === 'pregnant' ? { avBg: '#EFF7FE', avFg: '#427CAF' } : { avBg: '#FFEFE6', avFg: '#B54000' }; }
+  prioStyle(p) {
+    if (p === 'urgent') return { pColor: '#C81E1E', pBg: '#FDE8E8', pLabel: 'Urgent' };
+    if (p === 'high') return { pColor: '#B54000', pBg: '#FFEFE6', pLabel: 'Follow up' };
+    if (p === 'new') return { pColor: '#427CAF', pBg: '#EFF7FE', pLabel: 'New' };
+    return { pColor: '#057A55', pBg: '#F3FAF7', pLabel: 'Stable' };
+  }
+  mapRow(c, rank) {
+    const meta = c.type === 'pregnant' ? c.age + ' yrs \u00b7 ' + c.community : c.age + ' \u00b7 ' + c.community;
+    return { ...this.avStyle(c.type), ...this.prioStyle(c.priority), initials: this.initials(c.name), name: c.name, meta, flag: c.flag, rank: rank ? '#' + rank : '', open: () => this.selectClient(c.id) };
+  }
+
+  buildChart(c) {
+    const h = React.createElement;
+    const vs = c.visits, m = c.metric;
+    if (!vs.length) return null;
+    const vals = vs.map(v => v[m]);
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const pad = (max - min) * 0.5 || (max * 0.05) || 1;
+    const lo = min - pad, hi = max + pad;
+    const W = 300, H = 110, PX = 10, PT = 10, PB = 24;
+    const x = i => PX + (vs.length < 2 ? (W - 2 * PX) / 2 : i * (W - 2 * PX) / (vs.length - 1));
+    const y = v => PT + (1 - (v - lo) / (hi - lo)) * (H - PT - PB);
+    const col = c.trendColor;
+    const pts = vals.map((v, i) => [x(i), y(v)]);
+    const line = pts.map(p => p.join(',')).join(' ');
+    const area = 'M' + pts[0][0] + ',' + (H - PB) + ' L' + pts.map(p => p.join(',')).join(' L') + ' L' + pts[pts.length - 1][0] + ',' + (H - PB) + ' Z';
+    const gid = 'g' + c.id;
+    return h('svg', { viewBox: '0 0 ' + W + ' ' + H, style: { width: '100%', display: 'block' } },
+      h('defs', null, h('linearGradient', { id: gid, x1: 0, y1: 0, x2: 0, y2: 1 }, h('stop', { offset: '0%', stopColor: col, stopOpacity: 0.18 }), h('stop', { offset: '100%', stopColor: col, stopOpacity: 0 }))),
+      [0.25, 0.5, 0.75].map((g, i) => h('line', { key: i, x1: PX, x2: W - PX, y1: PT + g * (H - PT - PB), y2: PT + g * (H - PT - PB), stroke: '#ECECEB', strokeWidth: 1 })),
+      h('path', { d: area, fill: 'url(#' + gid + ')' }),
+      h('polyline', { points: line, fill: 'none', stroke: col, strokeWidth: 2.5, strokeLinecap: 'round', strokeLinejoin: 'round' }),
+      pts.map((p, i) => h('g', { key: i }, h('circle', { cx: p[0], cy: p[1], r: i === pts.length - 1 ? 5 : 3.5, fill: '#fff', stroke: col, strokeWidth: 2.5 }), h('text', { x: p[0], y: H - 8, textAnchor: 'middle', fill: '#9CA3AF', fontSize: 9, fontFamily: 'Inter' }, vs[i].date.split(',')[0].replace(/(st|nd|rd|th)/, '')))));
+  }
+
+  fmt(m, v) { return m === 'muac' ? Math.round(v) + ' mm' : m === 'hb' ? (v || 0).toFixed(1) + ' g/dL' : (v || 0).toFixed(1) + ' kg'; }
+
+  whySignals(c) {
+    const h = React.createElement, out = [], vs = c.visits;
+    if (!vs.length) return out;
+    const lv = vs[vs.length - 1], pv = vs.length > 1 ? vs[vs.length - 2] : null;
+    if (lv.hb != null && pv && pv.hb != null && lv.hb < pv.hb) out.push({ color: '#C81E1E', text: 'Haemoglobin is falling (' + pv.hb + ' \u2192 ' + lv.hb + ' g/dL) between visits.' });
+    if (c.type === 'child' && pv && (lv.weight - pv.weight) <= 0.1) out.push({ color: '#B48700', text: 'Weight-for-age has not gained since the last visit.' });
+    if (lv.muac && lv.muac < 125) out.push({ color: '#C81E1E', text: 'MUAC ' + Math.round(lv.muac) + ' mm is below the safe threshold.' });
+    if (lv.diet.length < 5) out.push({ color: '#B48700', text: 'Diet diversity is low (' + lv.diet.length + ' of 8 food groups).' });
+    if (!out.length) out.push({ color: '#057A55', text: 'All indicators within healthy range \u2014 routine monitoring.' });
+    return out;
+  }
+
+  renderVals() {
+    const s = this.state, c = this.current(), h = React.createElement;
+    const L = this.T[s.uiLang];
+    const digitStyle = "font-family:'Poppins';font-weight:600;font-size:24px;color:#fff;height:58px;border-radius:16px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;";
+    const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'del'].map(k => {
+      if (k === '') return { label: '', style: 'height:58px;', press: () => {} };
+      if (k === 'del') return { label: '\u232B', style: digitStyle + 'background:transparent;font-size:22px;', press: () => this.backspace() };
+      return { label: k, style: digitStyle, press: () => this.pressKey(k) };
+    });
+    const pinDots = [0, 1, 2, 3].map(i => i < s.pin.length ? { bg: '#FF5A00', bc: '#FF5A00' } : { bg: 'transparent', bc: 'rgba(255,255,255,.3)' });
+    const roleOn = 'flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:600;background:#fff;color:#08283B;';
+    const roleOff = 'flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:500;background:transparent;color:#8D9CA5;';
+
+    const q = s.query.trim().toLowerCase();
+    const searching = q.length > 0;
+    const prioRaw = this.clients().filter(x => x.priority === 'urgent' || x.priority === 'high').sort((a, b) => (a.priority === 'urgent' ? 0 : 1) - (b.priority === 'urgent' ? 0 : 1));
+    const priorityList = prioRaw.map((x, i) => this.mapRow(x, i + 1));
+    const stableList = this.clients().filter(x => x.priority === 'stable' || x.priority === 'new').map(x => this.mapRow(x));
+    const resultList = this.clients().filter(x => x.name.toLowerCase().includes(q) || x.community.toLowerCase().includes(q)).map(x => this.mapRow(x));
+
+    const vs = c.visits, hasVisits = vs.length > 0;
+    const lv = hasVisits ? vs[vs.length - 1] : null;
+    const pv = vs.length > 1 ? vs[vs.length - 2] : lv;
+    const dval = hasVisits ? Math.abs(lv[c.metric] - pv[c.metric]) : 0;
+    const trendDelta = c.metric === 'muac' ? Math.round(dval) + ' mm' : c.metric === 'hb' ? dval.toFixed(1) + ' g/dL' : (dval < 0.05 ? 'no change' : dval.toFixed(1) + ' kg');
+    const arrowSvg = dir => {
+      if (dir === 'flat') return h('svg', { width: 13, height: 13, viewBox: '0 0 24 24', fill: 'none', stroke: c.trendColor, strokeWidth: 3, strokeLinecap: 'round' }, h('path', { d: 'M5 12h14' }));
+      const d = dir === 'down' ? 'M6 9l6 6 6-6' : 'M6 15l6-6 6 6';
+      return h('svg', { width: 13, height: 13, viewBox: '0 0 24 24', fill: 'none', stroke: c.trendColor, strokeWidth: 3, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d }));
+    };
+    const flagIcon = c.severe
+      ? h('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: '#C81E1E', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01' }))
+      : h('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: c.priority === 'stable' ? '#057A55' : '#B54000', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M22 12h-4l-3 9L9 3l-3 9H2' }));
+    const flagBg = c.severe ? '#FDE8E8' : c.priority === 'stable' ? '#F3FAF7' : '#FFF9E6';
+    const flagBorder = c.severe ? '#FBD5D5' : c.priority === 'stable' ? '#BCF0DA' : '#FFE18A';
+    const flagColor = c.severe ? '#C81E1E' : c.priority === 'stable' ? '#057A55' : '#B48700';
+
+    const check = h('svg', { width: 12, height: 12, viewBox: '0 0 24 24', fill: 'none', stroke: '#fff', strokeWidth: 3.5, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M20 6L9 17l-5-5' }));
+    const dietSet = hasVisits ? lv.diet : [];
+    const dietSquares = this.GROUPS.map(g => { const on = dietSet.includes(g.id); return { label: g.label, bg: on ? g.color : '#F2F4F5', bc: on ? g.color : '#E5E7EB', icon: on ? check : '' }; });
+    const dietScore = dietSet.length;
+    const mddOk = dietScore >= 5;
+    const mddColor = mddOk ? '#057A55' : dietScore >= 3 ? '#B48700' : '#C81E1E';
+    const mddNote = mddOk ? 'Meets minimum diet diversity' : 'Below minimum diet diversity (needs 5+ groups)';
+
+    const syncIconGreen = h('svg', { width: 10, height: 10, viewBox: '0 0 24 24', fill: 'none', stroke: '#057A55', strokeWidth: 3.5, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M20 6L9 17l-5-5' }));
+    const syncIconLock = h('svg', { width: 10, height: 10, viewBox: '0 0 24 24', fill: 'none', stroke: '#B48700', strokeWidth: 2.5, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('rect', { x: 5, y: 11, width: 14, height: 10, rx: 2 }), h('path', { d: 'M8 11V7a4 4 0 0 1 8 0v4' }));
+    const visitRows = [...vs].reverse().map((v, i) => ({
+      date: v.date, dot: i === 0 ? c.trendColor : '#C3C3C2',
+      primary: this.fmt(c.metric, v[c.metric]),
+      sub: (v.hb != null ? 'Hb ' + v.hb + ' \u00b7 ' : '') + 'MUAC ' + Math.round(v.muac) + ' mm \u00b7 ' + v.diet.length + ' food groups',
+      syncLabel: v.synced ? 'Synced' : 'Pending \u00b7 locked to you', syncColor: v.synced ? '#057A55' : '#B48700', syncBg: v.synced ? '#F3FAF7' : '#FFF9E6', syncIcon: v.synced ? syncIconGreen : syncIconLock
+    }));
+
+    const rankIdx = prioRaw.findIndex(x => x.id === c.id);
+    const rankLabel = rankIdx >= 0 ? 'Priority #' + (rankIdx + 1) : (c.priority === 'stable' ? 'Monitoring' : c.priority === 'new' ? 'New' : 'Monitoring');
+    const rankColor = rankIdx >= 0 ? '#B54000' : '#057A55';
+    const rankBg = rankIdx >= 0 ? '#FFEFE6' : '#F3FAF7';
+
+    const p = this.PLANS[c.id] || this.PLANS.amina;
+    const edits = s.planEdits[c.id] || { removed: [], added: [] };
+    const activeFoods = [...p.foods.filter(f => !edits.removed.includes(f.name)), ...(p.alternates || []).filter(a => edits.added.includes(a.name))];
+    const tierMap = { 'Free / garden': ['#F3FAF7', '#057A55'], 'Low cost': ['#EFF7FE', '#427CAF'], 'Market': ['#ECECEB', '#3E3D3A'] };
+    const gColorMap = {}; this.GROUPS.forEach(g => gColorMap[g.id] = g.color);
+    const tintMap = { grains: '#FFF9E6', legumes: '#FFEFE6', dairy: '#EFF7FE', flesh: '#EDFAFA', eggs: '#FCE8F3', vita: '#F3FAF7', veg: '#F6F5FF', breast: '#EFF7FE' };
+    const planFoods = activeFoods.map(f => ({ name: f.name, local: f.local, why: f.why, tier: f.tier, gColor: gColorMap[f.group], tint: tintMap[f.group], tierBg: tierMap[f.tier][0], tierColor: tierMap[f.tier][1], remove: () => this.removeFood(f.name) }));
+    const canAddFood = (p.alternates || []).some(a => !edits.added.includes(a.name));
+    const planAdequacy = p.adequacy.map(a => ({ label: a.label, pct: a.pct, color: a.pct >= 88 ? '#057A55' : a.pct >= 78 ? '#559FE0' : '#FEBE00' }));
+
+    const sourceLabel = s.offline ? 'On-device template' : 'AI-enriched draft';
+    const sourceColor = s.offline ? '#427CAF' : '#7E3AF2';
+    const sourceBg = s.offline ? '#EFF7FE' : '#F6F5FF';
+    const sourceBorder = s.offline ? '#B4DAFB' : '#DCD7FE';
+
+    const heights = [10, 22, 16, 34, 26, 44, 30, 18, 38, 24, 48, 32, 20, 40, 28, 14, 36, 46, 22, 30, 42, 18, 34, 26, 44, 20, 38, 28, 16, 32, 46, 24, 40, 18, 30, 22, 36, 14, 26, 20];
+    const played = s.audioT / 38;
+    const waveform = heights.map((hh, i) => ({ h: hh, color: (i / heights.length) <= played ? '#FF5A00' : '#D1D5DB' }));
+    const mmss = t => '0:' + String(Math.floor(t)).padStart(2, '0');
+    const playIcon = s.audioPlaying
+      ? h('svg', { width: 22, height: 22, viewBox: '0 0 24 24', fill: '#fff' }, h('rect', { x: 6, y: 5, width: 4, height: 14, rx: 1 }), h('rect', { x: 14, y: 5, width: 4, height: 14, rx: 1 }))
+      : h('svg', { width: 22, height: 22, viewBox: '0 0 24 24', fill: '#fff', style: { marginLeft: '3px' } }, h('path', { d: 'M6 4l14 8-14 8z' }));
+
+    const langEnOn = s.lang === 'en';
+    const pillOn = 'font-size:12px;font-weight:600;color:#08283B;background:#fff;padding:5px 12px;border-radius:18px;';
+    const pillOff = 'font-size:12px;font-weight:500;color:#92C9F9;padding:5px 12px;';
+
+    const recIcon = s.recording
+      ? h('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: '#fff' }, h('rect', { x: 6, y: 6, width: 12, height: 12, rx: 2 }))
+      : h('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: '#fff', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4' }));
+    const recBtnBg = s.recording ? '#C81E1E' : '#08283B';
+    const recTitle = s.recording ? 'Recording\u2026 ' + mmss(s.recordT) : s.recorded ? 'Your recording saved' : 'Record your own note';
+    const recSub = s.recording ? 'Tap to stop' : s.recorded ? 'Plays alongside the generated note' : 'Speak the plan in your own local words';
+
+    const dietChips = this.GROUPS.map(g => { const on = s.visit.diet.includes(g.id); return { label: g.label, toggle: () => this.toggleDiet(g.id), bg: on ? '#EFF7FE' : '#FDFDFD', bc: on ? '#427CAF' : '#E5E7EB', fg: on ? '#08283B' : '#374151', weight: on ? '600' : '500', dotBg: on ? g.color : '#ECECEB', check: on ? check : '' }; });
+    const vc = s.visit.diet.length;
+    const mddLiveColor = vc >= 5 ? '#057A55' : vc >= 3 ? '#B48700' : '#9CA3AF';
+    const dangerChips = this.DANGERS.map(d => { const on = s.visit.danger.includes(d.id); return { label: d.label, toggle: () => this.toggleDanger(d.id), bg: on ? '#FDF2F2' : '#FDFDFD', bc: on ? '#F8B4B4' : '#E5E7EB', dot: on ? '#C81E1E' : '#C3C3C2', fill: on ? '#C81E1E' : 'transparent', fg: on ? '#9B1C1C' : '#374151', weight: on ? '600' : '500', check: on ? check : '' }; });
+    const dangerActive = s.visit.danger.length > 0;
+
+    const officers = [
+      { name: 'Yakubu Lute', zone: 'Kukuo', caseload: 24, initials: 'YL', avBg: '#EFF7FE', avFg: '#427CAF', synced: false },
+      { name: 'Mariama Abdulai', zone: 'Sagnarigu', caseload: 31, initials: 'MA', avBg: '#FFEFE6', avFg: '#B54000', synced: true },
+      { name: 'Sulemana Iddi', zone: 'Gizaa', caseload: 19, initials: 'SI', avBg: '#F3FAF7', avFg: '#057A55', synced: true }
+    ].map(o => ({ ...o, syncLabel: o.synced ? 'Synced' : '3 pending', syncColor: o.synced ? '#057A55' : '#B48700', syncBg: o.synced ? '#F3FAF7' : '#FFF9E6' }));
+    const communities = [
+      { name: 'Sagnarigu', count: 42, pct: 100, color: '#B54000' }, { name: 'Kukuo', count: 34, pct: 81, color: '#08283B' },
+      { name: 'Gizaa', count: 28, pct: 67, color: '#08283B' }, { name: 'Choggu', count: 24, pct: 57, color: '#08283B' }
+    ];
+
+    const refs = s.referrals || [];
+    const clockIcon = h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#B48700', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('circle', { cx: 12, cy: 12, r: 9 }), h('path', { d: 'M12 7v5l3 2' }));
+    const seenIcon = h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: '#057A55', strokeWidth: 2.5, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: 'M20 6L9 17l-5-5' }));
+    const referralList = refs.map(r => ({ name: r.name, facility: r.facility, reason: r.reason, at: r.at, initials: this.initials(r.name), ...this.avStyle(r.type), statusLabel: r.status === 'seen' ? 'Seen' : 'Awaiting', statusColor: r.status === 'seen' ? '#057A55' : '#B54000', statusBg: r.status === 'seen' ? '#F3FAF7' : '#FFEFE6', canConfirm: r.status !== 'seen', confirm: () => this.confirmSeen(r.clientId), call: () => this.callFacility(), stripBg: r.status === 'seen' ? '#F3FAF7' : '#FFF9E6', stripColor: r.status === 'seen' ? '#046C4E' : '#8C6900', stripIcon: r.status === 'seen' ? seenIcon : clockIcon, stripText: r.status === 'seen' ? 'Confirmed seen at facility \u00b7 ' + (r.seenAt || r.at) : 'Awaiting confirmation \u00b7 follow-up due ' + (r.due || 'this week') }));
+    const refAwaiting = refs.filter(r => r.status !== 'seen').length;
+    const refSeen = refs.filter(r => r.status === 'seen').length;
+    const openRefs = refs.filter(r => r.status !== 'seen').length;
+    const notifs = s.notifications || [];
+    const nTint = { referral: '#FDE8E8', risk: '#FFEFE6', sync: '#EFF7FE', bundle: '#EDFAFA', voice: '#F6F5FF' };
+    const nIcon = kind => { const map = { referral: ['#C81E1E', 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'], risk: ['#B54000', 'M22 12h-4l-3 9L9 3l-3 9H2'], sync: ['#427CAF', 'M21 12a9 9 0 0 1-9 9c-2.5 0-4.8-1-6.4-2.6L3 16M3 12a9 9 0 0 1 9-9c2.5 0 4.8 1 6.4 2.6L21 8M3 21v-5h5M21 3v5h-5'], bundle: ['#036672', 'M21 16V8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 22V13'], voice: ['#7E3AF2', 'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4'] }; const a = map[kind] || map.risk; return h('svg', { width: 19, height: 19, viewBox: '0 0 24 24', fill: 'none', stroke: a[0], strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, h('path', { d: a[1] })); };
+    const mapNotif = n => ({ title: n.title, body: n.body, time: n.time, unread: !n.read, bg: n.read ? '#FDFDFD' : '#EFF7FE', tint: nTint[n.kind] || '#FFEFE6', icon: nIcon(n.kind), onTap: () => this.notifTap(n.id) });
+    const todayList = notifs.filter(n => n.group === 'today').map(mapNotif);
+    const earlierList = notifs.filter(n => n.group === 'earlier').map(mapNotif);
+    const unreadCount = notifs.filter(n => !n.read).length;
+    const totalVisits = this.clients().reduce((n, cl) => n + cl.visits.length, 0);
+    const newReg = this.clients().filter(cl => cl.id[0] === 'c').length;
+    const dvv = this.clients().filter(cl => cl.visits.length).map(cl => cl.visits[cl.visits.length - 1].diet.length);
+    const avgDiet = dvv.length ? (dvv.reduce((a, b) => a + b, 0) / dvv.length).toFixed(1) : '0.0';
+    const childAssessed = this.clients().filter(cl => cl.type === 'child' && cl.visits.length).length;
+    const pregAssessed = this.clients().filter(cl => cl.type === 'pregnant' && cl.visits.length).length;
+    const tallyCards = [
+      { label: 'Visits recorded', value: totalVisits, color: '#08283B' },
+      { label: 'New registrations', value: newReg, color: '#427CAF' },
+      { label: 'Referrals issued', value: refs.length, color: '#C81E1E' },
+      { label: 'High-risk flagged', value: priorityList.length, color: '#B54000' },
+      { label: 'Voice notes sent', value: s.delivered, color: '#057A55' },
+      { label: 'Avg diet diversity', value: avgDiet, color: '#057A55' }
+    ];
+    const tallyLines = [
+      { label: 'Children 6\u201323m assessed', value: childAssessed },
+      { label: 'Pregnant women assessed', value: pregAssessed },
+      { label: 'MAM / SAM referrals', value: refs.length },
+      { label: 'Counselling notes delivered', value: s.delivered }
+    ];
+
+    const curRef = refs.find(r => r.clientId === c.id);
+    const cReferred = !!curRef;
+    const curRefSeen = curRef && curRef.status === 'seen';
+
+    const pending = this.clients().reduce((n, cl) => n + cl.visits.filter(v => !v.synced).length, 0);
+
+    const trackStyle = on => 'width:42px;height:24px;border-radius:20px;flex:none;background:' + (on ? '#08283B' : '#C3C3C2') + ';padding:2px;display:flex;transition:all .15s;' + (on ? 'justify-content:flex-end;' : 'justify-content:flex-start;');
+    const knobStyle = 'width:20px;height:20px;border-radius:50%;background:#fff;';
+    const uiOn = 'flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:600;background:#08283B;color:#fff;';
+    const uiOff = 'flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:500;background:#F2F4F5;color:#374151;';
+    const regChip = on => 'flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:12px;border:1.5px solid ' + (on ? '#08283B' : '#E5E7EB') + ';background:' + (on ? '#EFF7FE' : '#FDFDFD') + ';font-size:13.5px;font-weight:600;color:' + (on ? '#08283B' : '#6B7280') + ';';
+    const cmChip = on => 'padding:9px 15px;border-radius:20px;border:1.5px solid ' + (on ? '#08283B' : '#E5E7EB') + ';background:' + (on ? '#08283B' : '#FDFDFD') + ';font-size:13px;font-weight:600;color:' + (on ? '#fff' : '#374151') + ';';
+    const reg = s.reg;
+    const regCommunities = ['Kukuo', 'Sagnarigu', 'Gizaa', 'Choggu'].map(n => ({ name: n, pick: () => this.setReg('community', n), style: cmChip(reg.community === n) }));
+
+    return {
+      isSplash: s.screen === 'splash', isLogin: s.screen === 'login', isHome: s.screen === 'home',
+      isRegister: s.screen === 'register', isClient: s.screen === 'client', isVisit: s.screen === 'visit',
+      isPlan: s.screen === 'plan', isVoice: s.screen === 'voice', isReferral: s.screen === 'referral',
+      isReferrals: s.screen === 'referrals', isSettings: s.screen === 'settings', isSupervisor: s.screen === 'supervisor',
+      statusColor: (s.screen === 'login' || s.screen === 'splash') ? '#fff' : '#08283B',
+      offline: s.offline, online: !s.offline, offBg: s.offline ? '#FFEFE6' : '#F3FAF7', toggleOffline: () => this.toggleOffline(),
+      battery: s.battery, L,
+
+      keys, pinDots,
+      choBtnStyle: s.role === 'cho' ? roleOn : roleOff, supBtnStyle: s.role === 'sup' ? roleOn : roleOff,
+      setRoleCho: () => this.setState({ role: 'cho' }), setRoleSup: () => this.setState({ role: 'sup' }),
+      loginInitials: s.role === 'sup' ? 'RA' : 'YL', loginName: s.role === 'sup' ? 'Rashida Alhassan' : 'Yakubu Lute',
+      loginRole: s.role === 'sup' ? 'District nutrition officer' : 'Community Health Officer \u00b7 Kukuo', loginAvBg: s.role === 'sup' ? '#FFEFE6' : '#B4DAFB',
+
+      query: s.query, onSearch: e => this.onSearch(e),
+      searching, notSearching: !searching, hasResults: resultList.length > 0, showEmpty: resultList.length === 0,
+      priorityList, stableList, resultList, priorityCount: priorityList.length,
+      syncing: s.syncing, syncOffline: !s.syncing && s.offline, syncPending: !s.syncing && !s.offline && pending > 0,
+      syncDone: !s.syncing && !s.offline && pending === 0, pending, sync: () => this.sync(),
+      openRegister: () => this.openRegister(), openReferrals: () => this.openReferrals(), openSettings: () => this.openSettings(), back: () => this.back(),
+      hasReferrals: openRefs > 0, referralCount: openRefs,
+
+      toHome: this.go('home'), toClient: this.go('client'), toPlan: this.go('plan'), toSupervisor: this.go('supervisor'),
+      toBell: () => this.toast('No new notifications'), logout: () => this.logout(),
+
+      reg: { name: reg.name, dob: reg.dob, namePh: reg.type === 'child' ? "Child's name" : "Woman's name", dateLabel: reg.type === 'child' ? 'Date of birth' : 'Expected delivery date', datePh: reg.type === 'child' ? 'e.g. 4th Jan, 2025' : 'e.g. 20th Feb, 2027' },
+      regChildStyle: regChip(reg.type === 'child'), regPregStyle: regChip(reg.type === 'pregnant'),
+      setRegChild: () => this.setReg('type', 'child'), setRegPreg: () => this.setReg('type', 'pregnant'),
+      setRegName: e => this.setReg('name', e.target.value), setRegDob: e => this.setReg('dob', e.target.value),
+      regCommunities, toggleConsent: () => this.setReg('consent', !reg.consent),
+      consentBorder: reg.consent ? '#08283B' : '#E5E7EB', consentBg: reg.consent ? '#EFF7FE' : '#FDFDFD',
+      consentDot: reg.consent ? '#08283B' : '#C3C3C2', consentFill: reg.consent ? '#08283B' : 'transparent', consentCheck: reg.consent ? check : '',
+      regSaveBg: (reg.name.trim() && reg.consent) ? '#08283B' : '#B2BCC2', saveClient: () => this.saveClient(),
+
+      c: {
+        name: c.name, firstName: c.name.replace('Baby ', ''), initials: this.initials(c.name), ...this.avStyle(c.type),
+        sub: (c.type === 'pregnant' ? 'Pregnant \u00b7 ' + (c.age === '\u2014' ? 'new' : c.age + ' yrs') : 'Child \u00b7 ' + c.age) + ' \u00b7 ' + c.community,
+        flag: c.flag, flagDetail: c.flagDetail, flagBg, flagBorder, flagColor, flagIcon, caregiverName: c.caregiver,
+        referred: cReferred, refBg: curRefSeen ? '#F3FAF7' : '#FFF9E6', refBorder: curRefSeen ? '#BCF0DA' : '#FFE18A', refColor: curRefSeen ? '#057A55' : '#B48700',
+        refTitle: curRefSeen ? 'Seen at facility' : 'Referred \u2014 awaiting confirmation', refSub: curRefSeen ? 'This child was confirmed seen at Tamale West Hospital.' : 'Follow up until confirmed seen at Tamale West Hospital.', refCanConfirm: cReferred && !curRefSeen,
+        rankLabel, rankColor, rankBg
+      },
+      hasVisits, noVisits: !hasVisits,
+      metricLabel: hasVisits ? (c.metric === 'hb' ? 'Haemoglobin (g/dL)' : c.metric === 'weight' ? 'Weight (kg)' : 'MUAC (mm)') : '',
+      visitCount: vs.length, latestValStr: hasVisits ? this.fmt(c.metric, lv[c.metric]) : '',
+      trendColor: c.trendColor || '#057A55', trendArrow: hasVisits ? arrowSvg(c.trendArrow) : '', trendDelta, trendNote: c.trendNote || '',
+      trendChart: this.buildChart(c), whySignals: this.whySignals(c),
+      dietSquares, dietScore, mddColor, mddNote, visitRows,
+      startVisit: () => this.startVisit(), recordLabel: hasVisits ? 'Record visit' : 'Record first visit',
+      continuePlan: () => this.continuePlan(), confirmSeen: () => this.confirmSeen(c.id),
+      planBtnBg: c.severe ? '#C81E1E' : '#08283B', planBtnLabel: c.severe ? 'Review referral' : 'Feeding plan',
+
+      vf: { weight: s.visit.weight, hb: s.visit.hb, muac: s.visit.muac, dietCount: vc },
+      setWeight: e => this.setVF('weight', e.target.value), setHb: e => this.setVF('hb', e.target.value), setMuac: e => this.setVF('muac', e.target.value),
+      dietChips, saveVisit: () => this.saveVisit(),
+      mddLiveColor, mddLiveBg: vc >= 5 ? '#F3FAF7' : '#F9FAFB', mddLiveBorder: vc >= 5 ? '#BCF0DA' : '#E5E7EB',
+
+      p: { seasonNote: p.seasonNote, targetNote: p.targetNote },
+      planFoods, canAddFood, addFood: () => this.addFood(), regenerate: () => this.regenerate(),
+      planAdequacy, planRationale: p.rationale, approveAndVoice: () => this.approveAndVoice(),
+      sourceLabel, sourceColor, sourceBg, sourceBorder,
+
+      toggleLang: () => this.toggleLang(), langLabel: langEnOn ? 'English' : 'Dagbani', isDag: !langEnOn,
+      langEnStyle: langEnOn ? pillOn : pillOff, langDagStyle: langEnOn ? pillOff : pillOn,
+      voiceBody: langEnOn ? p.voiceEn : p.voiceDag,
+      waveform, playIcon, toggleAudio: () => this.toggleAudio(),
+      audioPct: (s.audioT / 38) * 100, audioTimeStr: mmss(s.audioT), audioDurStr: '0:38',
+      playAloud: () => this.playAloud(), sendBluetooth: () => this.sendBluetooth(), sendWhatsapp: () => this.sendWhatsapp(),
+      waBg: s.offline ? '#F9FAFB' : '#FDFDFD', waBorder: '#E5E7EB', waSub: s.offline ? 'Queued \u2014 needs a connection' : 'If caregiver has a smartphone', waSubColor: s.offline ? '#8C6900' : '#6B7280',
+      waTag: s.offline ? 'QUEUED' : 'ONLINE', waTagColor: s.offline ? '#B48700' : '#427CAF', waTagBg: s.offline ? '#FFF9E6' : '#EFF7FE',
+      toggleRecord: () => this.toggleRecord(), recIcon, recBtnBg, recTitle, recSub, recorded: s.recorded,
+      deliverVoice: () => this.deliverVoice(),
+
+      callFacility: () => this.callFacility(), issueReferral: () => this.issueReferral(),
+      referralList, noReferrals: referralList.length === 0, hasAnyReferrals: referralList.length > 0, refAwaiting, refSeen, supReferrals: 3 + refs.length,
+      officers, communities,
+
+      storageUsed: s.storageUsed, storagePct: Math.round(s.storageUsed / 250 * 100), telemetryCount: s.telemetry,
+      adaptiveTrack: trackStyle(s.adaptive), adaptiveKnob: knobStyle, toggleAdaptive: () => this.toggleAdaptive(),
+      uiEnStyle: s.uiLang === 'en' ? uiOn : uiOff, uiDagStyle: s.uiLang === 'dag' ? uiOn : uiOff,
+      setUiEn: () => this.setUiLang('en'), setUiDag: () => this.setUiLang('dag'),
+
+      isTally: s.screen === 'tally', openTally: () => this.openTally(), tallyCards, tallyLines,
+      exportCsv: () => this.exportCsv(), sendDhims: () => this.sendDhims(),
+      dangerChips, dangerActive, saveVisitBg: dangerActive ? '#C81E1E' : '#08283B', saveVisitLabel: dangerActive ? 'Save & refer' : 'Save visit',
+      isNotifications: s.screen === 'notifications', openNotifications: () => this.openNotifications(), markAllRead: () => this.markAllRead(),
+      todayList, earlierList, hasToday: todayList.length > 0, hasEarlier: earlierList.length > 0, hasUnread: unreadCount > 0, noNotifs: notifs.length === 0,
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Users & Facilities ───────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(uuid())
+  firstName    String   @map("first_name")
+  lastName     String   @map("last_name")
+  otherNames   String?  @map("other_names")
+  role         UserRole
+  facilityId   String?  @map("facility_id")
+  phone        String   @unique
+  passwordHash String   @map("password_hash")
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  facility      Facility?      @relation(fields: [facilityId], references: [id])
+  visits        Visit[]
+  plans         Plan[]
+  auditLogs     AuditLog[]
+  bundles       ReferenceBundle[]
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  tokenHash String   @unique @map("token_hash")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("refresh_tokens")
+}
+
+enum UserRole {
+  system_admin
+  district_admin
+  CHO
+  nutrition_officer
+  supervisor
+}
+
+model Facility {
+  id         String  @id @default(uuid())
+  name       String
+  district   String
+  region     String
+  agroZoneId String? @map("agro_zone_id")
+  geo        Json?
+  active     Boolean @default(true)
+
+  agroZone   AgroZone?   @relation(fields: [agroZoneId], references: [id])
+  users      User[]
+  households Household[]
+
+  @@map("facilities")
+}
+
+// ─── Clinical Records ─────────────────────────────────────────────────────────
+
+model Household {
+  id         String    @id @default(uuid())
+  facilityId String    @map("facility_id")
+  label      String
+  community  String
+  geo        Json?
+  notes      String?
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
+
+  facility Facility @relation(fields: [facilityId], references: [id])
+  clients  Client[]
+
+  @@map("households")
+}
+
+model Client {
+  id           String    @id @default(uuid())
+  householdId  String    @map("household_id")
+  type         ClientType
+  name         String
+  dob          DateTime? @db.Date
+  eddGestation String?   @map("edd_gestation")
+  sex          String?
+  consentAt    DateTime  @map("consent_at")
+  active       Boolean   @default(true)
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+  syncedAt     DateTime? @map("synced_at")
+
+  household Household  @relation(fields: [householdId], references: [id])
+  visits    Visit[]
+  flags     Flag[]
+  plans     Plan[]
+  referrals Referral[]
+
+  @@map("clients")
+}
+
+enum ClientType {
+  pregnant
+  child
+}
+
+model Visit {
+  id          String    @id @default(uuid())
+  clientId    String    @map("client_id")
+  userId      String    @map("user_id")
+  visitedAt   DateTime  @map("visited_at")
+  weightKg    Decimal?  @map("weight_kg") @db.Decimal(4, 2)
+  hbGDl       Decimal?  @map("hb_g_dl") @db.Decimal(3, 1)
+  muacMm      Decimal?  @map("muac_mm") @db.Decimal(4, 1)
+  dietRecall  Json      @map("diet_recall")
+  dangerSigns Json?     @map("danger_signs")
+  notes       String?
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  syncedAt    DateTime? @map("synced_at")
+
+  client    Client     @relation(fields: [clientId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
+  flags     Flag[]
+  plans     Plan[]
+  referrals Referral[]
+
+  @@map("visits")
+}
+
+model Flag {
+  id                     String   @id @default(uuid())
+  clientId               String   @map("client_id")
+  visitId                String   @map("visit_id")
+  severity               Severity
+  reasons                Json
+  computedAt             DateTime @map("computed_at")
+  referenceBundleVersion String   @map("reference_bundle_version")
+
+  client Client @relation(fields: [clientId], references: [id])
+  visit  Visit  @relation(fields: [visitId], references: [id])
+
+  @@map("flags")
+}
+
+enum Severity {
+  ok
+  watch
+  refer
+}
+
+model Plan {
+  id                     String    @id @default(uuid())
+  clientId               String    @map("client_id")
+  visitId                String    @map("visit_id")
+  seasonMonth            Int       @map("season_month")
+  district               String
+  targetNutrients        Json      @map("target_nutrients")
+  foods                  Json
+  adequacy               Json
+  rationale              Json
+  voiceScript            String?   @map("voice_script")
+  voicePackId            String?   @map("voice_pack_id")
+  aiEnriched             Boolean   @default(false) @map("ai_enriched")
+  referenceBundleVersion String    @map("reference_bundle_version")
+  createdBy              String    @map("created_by")
+  createdAt              DateTime  @default(now()) @map("created_at")
+
+  client    Client    @relation(fields: [clientId], references: [id])
+  visit     Visit     @relation(fields: [visitId], references: [id])
+  createdByUser User  @relation(fields: [createdBy], references: [id])
+  voicePack  VoicePack? @relation(fields: [voicePackId], references: [id])
+
+  @@map("plans")
+}
+
+model Referral {
+  id           String         @id @default(uuid())
+  clientId     String         @map("client_id")
+  visitId      String         @map("visit_id")
+  reason       String
+  flagCodes    Json           @map("flag_codes")
+  facilityTo   String?        @map("facility_to")
+  status       ReferralStatus @default(issued)
+  queuedOffline Boolean       @default(true) @map("queued_offline")
+  issuedAt     DateTime       @map("issued_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  syncedAt     DateTime?      @map("synced_at")
+
+  client Client @relation(fields: [clientId], references: [id])
+  visit  Visit  @relation(fields: [visitId], references: [id])
+
+  @@map("referrals")
+}
+
+enum ReferralStatus {
+  issued
+  in_transit
+  arrived
+  outcome_good
+  outcome_poor
+  lost_to_follow_up
+}
+
+// ─── Reference Data ───────────────────────────────────────────────────────────
+
+model AgroZone {
+  id        String @id @default(uuid())
+  name      String
+  districts Json
+
+  facilities           Facility[]
+  seasonalAvailability SeasonalAvailability[]
+
+  @@map("agro_zones")
+}
+
+model Food {
+  id                 String            @id @default(uuid())
+  name               String
+  localNames         Json              @map("local_names")
+  foodGroup          String            @map("food_group")
+  nutrients          Json
+  affordabilityTier  AffordabilityTier @map("affordability_tier")
+  storable           Boolean           @default(false)
+  gardenWild         Boolean           @default(false) @map("garden_wild")
+  active             Boolean           @default(true)
+
+  seasonalAvailability SeasonalAvailability[]
+
+  @@map("foods")
+}
+
+enum AffordabilityTier {
+  staple_cheap
+  market
+  premium
+}
+
+model SeasonalAvailability {
+  id          String       @id @default(uuid())
+  agroZoneId  String       @map("agro_zone_id")
+  month       Int
+  foodId      String       @map("food_id")
+  availability Availability
+  updatedAt   DateTime     @default(now()) @map("updated_at")
+
+  agroZone AgroZone @relation(fields: [agroZoneId], references: [id])
+  food     Food     @relation(fields: [foodId], references: [id])
+
+  @@unique([agroZoneId, month, foodId])
+  @@map("seasonal_availability")
+}
+
+enum Availability {
+  abundant
+  available
+  scarce
+}
+
+model NutrientTarget {
+  id          String          @id @default(uuid())
+  profile     NutrientProfile
+  nutrient    String
+  dailyTarget Decimal         @map("daily_target") @db.Decimal(10, 3)
+  source      String
+
+  @@unique([profile, nutrient])
+  @@map("nutrient_targets")
+}
+
+enum NutrientProfile {
+  pregnant
+  child_6_23m
+  child_24_59m
+}
+
+model ClinicalThreshold {
+  id                 String    @id @default(uuid())
+  metric             String
+  condition          String
+  severity           Severity
+  thresholdValue     Decimal   @map("threshold_value") @db.Decimal(6, 2)
+  thresholdDirection String    @map("threshold_direction")
+  source             String
+
+  @@map("clinical_thresholds")
+}
+
+model VoicePack {
+  id          String   @id @default(uuid())
+  language    String
+  version     String
+  phrases     Json
+  templateMap Json     @map("template_map")
+  bundleUrl   String?  @map("bundle_url")
+  active      Boolean  @default(true)
+
+  plans Plan[]
+
+  @@map("voice_packs")
+}
+
+model ReferenceBundle {
+  id              String   @id @default(uuid())
+  versionTag      String   @unique @map("version_tag")
+  description     String?
+  tablesIncluded  Json     @map("tables_included")
+  publishedBy     String?  @map("published_by")
+  publishedAt     DateTime @default(now()) @map("published_at")
+  checksum        String
+  active          Boolean  @default(true)
+
+  publisher User? @relation(fields: [publishedBy], references: [id])
+
+  @@map("reference_bundles")
+}
+
+// ─── Operational ─────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  entityType    String   @map("entity_type")
+  entityId      String   @map("entity_id")
+  action        String
+  changeSummary Json     @map("change_summary")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("audit_log")
+}
+
+model TelemetryEvent {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  eventType String    @map("event_type")
+  payload   Json?
+  createdAt DateTime  @map("created_at")
+  syncedAt  DateTime? @map("synced_at")
+
+  @@map("telemetry_events")
+}
