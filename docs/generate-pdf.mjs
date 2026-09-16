@@ -164,7 +164,7 @@ const html = `<!DOCTYPE html>
 <div class="header-bar">
   <h1>NurtureLink</h1>
   <p class="tagline">Offline-first nutrition decision support for CHPS Community Health Officers in rural Northern Ghana</p>
-  <p class="meta">UNICEF AI for Nurturing Care Hackathon · KOICA / MEST StartUp Lab · Bootcamp: 26–28 August 2026, Tamale &nbsp;|&nbsp; <a href="https://github.com/YakubuLute/nurturelink" style="color:#B4DAFB">github.com/YakubuLute/nurturelink</a></p>
+  <p class="meta">UNICEF AI for Nurturing Care Hackathon · KOICA / MEST StartUp Lab · Bootcamp: 26–28 August 2026, Tamale &nbsp;|&nbsp; <a href="https://github.com/leticiaoffeibea23-hash/NurtureLINK" style="color:#B4DAFB">github.com/leticiaoffeibea23-hash/NurtureLINK</a></p>
 </div>
 ${body}
 </body>
