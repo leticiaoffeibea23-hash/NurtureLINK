@@ -4,20 +4,15 @@
 
 ---
 
-## 1. Team profile
+## 1. Project lead and teammate acknowledgement
 
-| # | Name | Role | Based in | Background | Key skills |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Yakubu Lute | Co-developer / technical architecture | Kumasi / Accra, Ghana | Senior Full-Stack Engineer at Amalitech; Frontend Lead at mPedigree Network (health-tech, pharmaceutical verification); 7+ years production software (mobile, web, backend); born Tumu, Upper West Region | React Native/Expo, offline-first architecture, AI integration, TypeScript, WCAG 2.1 |
-| 2 | Leticia Offeibea | Co-developer / health-information and nutrition lead | Ghana | BSc Health Information Management; Research Assistant on Social Determinants of Health; USAID Ghana National Malaria Elimination Programme field experience at community level | Health-information systems, CHPS workflow and product design, nutrition decision logic, responsible-AI safeguards, testing, documentation, and implementation |
+| Name | Role | Background | Applied contribution |
+| --- | --- | --- | --- |
+| Leticia Offeibea | Project Lead, Designer & Developer | BSc Health Information Management; Research Assistant in Social Determinants of Health; USAID Ghana National Malaria Elimination Programme field experience | Conceived, designed, and built NurtureLink: problem framing, CHPS workflow, nutrition decision logic, responsible-AI safeguards, interfaces, implementation, testing, and documentation |
 
-**UNICEF criteria:**
+**Teammate acknowledgement:** Yakubu Lute participated as a teammate during the UNICEF AI for Nurturing Care Hackathon.
 
-- Female member: Leticia Offeibea
-- Technology expertise: collaborative implementation, with Yakubu contributing 7+ years of full-stack, mobile, and AI engineering experience
-- Health-information and nutrition expertise: Leticia Offeibea — HIM degree, USAID Ghana community-health field work, workflow design, decision logic, and implementation
-- Connection to problem geography: Yakubu born in Upper West Region (named in problem statement); Leticia — Ghana community health programme experience
-- Responsible AI: both — architecture enforces clinical guardrails; LLM never makes clinical decisions
+**Relevant strengths:** female project lead; health-information and community-health expertise; responsible-AI design; applied research; product development; and technical implementation.
 
 ---
 
@@ -81,7 +76,7 @@ Scoping to a single district and a single language for the MVP is deliberate: a 
 
 GitHub: <https://github.com/leticiaoffeibea23-hash/NurtureLINK>
 
-The repo is public and contains the full working prototype: React Native mobile app (screens: Register, Visit, Plan, Referral), deterministic recommendation engine with 50+ passing tests, Express.js backend with Prisma schema and seed data, and shared Zod schemas. The README describes the concept, the two core functions, the offline and responsible-AI design, and the bootcamp build plan.
+The repository contains the working research prototype: React Native mobile app (screens: Register, Visit, Plan, Referral), deterministic recommendation engine with 50+ passing tests, Express.js backend with Prisma schema and seed data, and shared Zod schemas. The README describes the concept, the two core functions, the offline and responsible-AI design, and the bootcamp build plan.
 
 ---
 
@@ -94,9 +89,8 @@ The problem statement rests on Ghana-specific data:
 - GDHS 2022: minimum acceptable diet 26.4% nationally; food insecurity 73.7% in Upper East Region (highest of the five northern regions); SDG 3.1 target <70 per 100,000 by 2030.
 - DHIMS-2, 2018–2022: 91.8% of Savannah Region neonatal deaths occurred in the first seven days of life.
 
-**Team field connection:**
+**Field connection:**
 
-- Yakubu Lute was born and raised in Tumu, Upper West Region — one of the five target regions named in the problem statement. He has lived in Tamale and witnessed firsthand the food insecurity and under-resourced health infrastructure that define daily life in Northern Ghana.
 - Leticia Offeibea participated in Ghana's National Malaria Elimination Programme (USAID-funded), supporting malaria prevention, surveillance, and control at the community level. She is the team's primary contact for ongoing CHO field validation.
 
 **CHO field conversation (August 2026).** Through Leticia's USAID Ghana network, the team connected with a working CHPS Community Health Officer for a 20-minute conversation about current nutrition counselling practice in the field.
