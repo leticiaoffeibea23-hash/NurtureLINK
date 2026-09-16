@@ -5,13 +5,26 @@ An offline-first nutrition tool that helps CHPS Community Health Officers in rur
 Built for the **UNICEF AI for Nurturing Care Hackathon** (KOICA / MEST StartUp Lab).
 
 
-> **Status — working offline-first MVP.** The recommendation engine, encrypted on-device storage (SQLCipher), outbox sync, the severe-case referral guardrail, and 50+ passing engine tests are implemented and runnable against a seeded pilot district. Voice audio playback, the longitudinal trend chart, and the DHIMS2 export are in progress for the 26–28 August bootcamp.
+> **Status — research prototype / offline-first MVP.** The repository includes a deterministic nutrition recommendation engine, encrypted on-device storage (SQLCipher), outbox-based synchronisation, severe-case referral guardrails, mobile and administrative interfaces, a TypeScript/Express/Prisma backend, pilot-district seed data, and automated tests. Some integrations and field-validation activities remain under development; see [Current scope](#current-scope).
 
-**Team:** Leticia Offeibea and Yakubu Lute 
+## Collaboration and authorship
+
+NurtureLink was co-developed by **Leticia Offeibea** and **Yakubu Lute** as a collaborative health-technology project. Both contributors participated in the project's development and implementation; neither should be understood as the sole builder of the system.
+
+- **Leticia Offeibea:** problem formulation; health-information and CHPS workflow design; nutrition decision logic; local-food and counselling framework; responsible-AI and safety requirements; interface and feature design; testing, documentation, and implementation.
+- **Yakubu Lute:** software-engineering contributions, technical architecture, application development, and implementation.
+- **Joint work:** product direction, feature prioritisation, prototype development, review, and hackathon delivery.
+
+Repository ownership and commit history reflect how this clean portfolio copy was published; they are not a measure of individual authorship.
+
 **Jump to:** [Screenshots](#screenshots) · [Recommendation Engine](#10-recommendation-engine) · [AI Architecture](#12-ai-architecture) · [Challenge Mapping](#20-unicef-challenge-area-mapping)
 
 **Implemented:** client registration · visit capture · dietary-diversity scoring · deterministic recommendation engine · seasonal + affordability food selection · referral guardrail · offline SQLite with outbox sync · at-rest encryption · JWT/PIN auth · reference-bundle versioning · Express + Prisma backend · pilot-district seed data
-**In progress (bootcamp):** Dagbani audio playback · trend chart on client screen · pull-sync UI · DHIMS2 export serializer · field validation of food/threshold data
+### Current scope
+
+**Implemented in the prototype:** client registration · visit capture · dietary-diversity scoring · deterministic recommendation engine · seasonal and affordability-aware food selection · referral guardrail · offline SQLite with outbox sync · at-rest encryption · JWT/PIN authentication · reference-bundle versioning · Express + Prisma backend · pilot-district seed data
+
+**In development or requiring further validation:** production-ready Dagbani audio delivery · complete pull-sync experience · DHIMS2 interoperability validation · clinical and field validation of food data, thresholds, and generated plans
 
 ---
 
@@ -52,7 +65,7 @@ Built for the **UNICEF AI for Nurturing Care Hackathon** (KOICA / MEST StartUp L
 16. [Security and Privacy](#16-security-and-privacy)
 17. [Testing Requirements](#17-testing-requirements)
 18. [Non-Functional Targets](#18-non-functional-targets)
-19. [Hackathon Timeline](#19-hackathon-timeline)
+19. [Project Stage](#19-project-stage)
 20. [UNICEF Challenge Area Mapping](#20-unicef-challenge-area-mapping)
 
 ---
@@ -1023,11 +1036,11 @@ Audio.Sound.createAsync({ uri: plan.assembledAudioUri });
 Share.share({ url: plan.assembledAudioUri, message: 'NurtureLink nutrition plan' });
 ```
 
-### Between-Visit Reach (Roadmap)
+### Between-Visit Reach (Future Work)
 
 Today the caregiver receives the plan through the CHO's phone (in-person playback, Bluetooth push, or WhatsApp/Xender share). On the roadmap, the same voice plan extends to an **IVR (interactive voice response)** line: a caregiver on any basic feature phone can receive the plan and reminders as a call in her own language, with no app and no data, and respond by keypad. This reuses the voice content the engine already produces, so it is a delivery step, not a redesign.
 
-### Language Roadmap
+### Language Expansion
 
 Dagbani first (pilot district). Engineering scaffolding is language-agnostic.
 
@@ -1193,17 +1206,19 @@ Auto-clear synced audio cache when device storage drops below 10% free.
 
 ---
 
-## 19. Hackathon Timeline
+## 19. Project Stage
 
-| Date          | Milestone                                                               |
-| ------------- | ----------------------------------------------------------------------- |
-| 11 Aug 2026   | Application deadline                                                    |
-| Aug (virtual) | Pre-workshops (attend if possible)                                      |
-| 26 Aug 2026   | Bootcamp Day 1 — Tamale: lock scope, offline register + visit capture   |
-| 27 Aug 2026   | Bootcamp Day 2: recommendation engine, sync, voice note, explainable UI |
-| 28 Aug 2026   | Bootcamp Day 3: polish, demo path, pitch                                |
+NurtureLink was developed for the UNICEF AI for Nurturing Care Hackathon in August 2026 and is preserved here as a research and product prototype. The repository demonstrates the proposed offline-first architecture, decision-support workflow, interfaces, data model, safety guardrails, and implementation approach.
 
-**Before bootcamp:** scaffold repo, seed one pilot district's food + seasonal data (validated with a nutrition contact), record a handful of Dagbani audio phrases, convert prototype to RN screen skeleton.
+Before clinical or operational deployment, the project requires:
+
+- formal review of clinical thresholds and recommendation rules by qualified Ghana Health Service and nutrition professionals;
+- validation of local food, seasonality, affordability, and language data in the intended pilot district;
+- end-to-end device, synchronisation, privacy, and security testing;
+- usability testing with Community Health Officers and caregivers;
+- governance and approval for DHIMS2 interoperability and any production AI service.
+
+The prototype should not be used as a substitute for professional clinical judgement or an approved health-information system.
 
 ---
 
