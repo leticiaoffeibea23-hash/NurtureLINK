@@ -3,8 +3,8 @@
 > Offline-first nutrition decision support for CHPS Community Health Officers in rural Northern Ghana.
 > Built for the **UNICEF AI for Nurturing Care Hackathon** (KOICA / MEST StartUp Lab) · Bootcamp: 26–28 August 2026, Tamale.
 
-**GitHub:** <https://github.com/YakubuLute/nurturelink>
-**Team:** Yakubu Lute (Technical Lead) · Leticia Offeibea (Health & Nutrition Domain)
+**GitHub:** <https://github.com/leticiaoffeibea23-hash/NurtureLINK>
+**Team:** Leticia Offeibea (Co-developer; Health Information & Nutrition) · Yakubu Lute (Co-developer; Technical Architecture)
 
 ---
 
@@ -246,8 +246,8 @@ See full bios in [docs/team-introduction.md](team-introduction.md).
 
 | Name | Role | Background |
 | --- | --- | --- |
-| Yakubu Lute | Technical Lead | Senior Full-Stack Engineer, Amalitech & mPedigree Network (health-tech). Born Tumu, Upper West Region. 7+ years production mobile, web, and backend. |
-| Leticia Offeibea | Health & Nutrition Domain | BSc Health Information Management. Research Assistant, Social Determinants of Health. USAID Ghana National Malaria Elimination Programme field experience. |
+| Yakubu Lute | Co-developer / Technical Architecture | Senior Full-Stack Engineer, Amalitech & mPedigree Network (health-tech). Born Tumu, Upper West Region. 7+ years production mobile, web, and backend. |
+| Leticia Offeibea | Co-developer / Health Information & Nutrition | BSc Health Information Management. Research Assistant, Social Determinants of Health. Contributed health-information workflow design, nutrition decision logic, responsible-AI safeguards, testing, documentation, and implementation. |
 
 **UNICEF criteria met:** female team member, technology + health domain expertise, direct connection to the target geography (Upper West Region), responsible AI architecture.
 
