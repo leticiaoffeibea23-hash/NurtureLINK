@@ -4,17 +4,13 @@
 
 ---
 
-## 1. Team profile
+## 1. Project lead and teammate acknowledgement
 
-The build team can be any size; only up to three members attend the bootcamp if selected, so list your three bootcamp members first.
+| Name | Role | Background | Applied contribution |
+| --- | --- | --- | --- |
+| Leticia Offeibea | Project Lead, Designer & Developer | BSc Health Information Management; public-health research and community-health experience | Conceived, designed, and built NurtureLink, including the health-information workflow, nutrition decision logic, responsible-AI safeguards, interfaces, implementation, testing, and documentation |
 
-| | Name | Role | Based in | Background | Key skills |
-|---|---|---|---|---|---|
-| 1 | Yakubu Lute | Technical lead | Techiman, Bono East | Senior software engineer, founder of Lute Technologies; built AgroLink (agri marketplace with food, seasonality and price data) | Mobile (React Native/Expo), offline-first architecture, AI integration |
-| 2 | [Name] | Health / nutrition domain | [Northern Region] | [e.g. nutrition officer, public-health, or UDS graduate with TTFPP field experience] | Maternal and child nutrition, community context |
-| 3 | [Name] | Design / community | [town] | [design + community insight] | UX, local-language content, field research |
-
-Required mix confirmed: at least one female member [confirm], a blend of technology plus maternal, newborn, child health or nutrition insight, and ideally one member with UDS / TTFPP field experience (encouraged, not mandatory per the info session). Recruit the missing roles via the hackathon WhatsApp group and teammate form shared in the session.
+**Teammate acknowledgement:** Yakubu Lute participated as a teammate during the UNICEF AI for Nurturing Care Hackathon.
 
 ---
 
@@ -72,7 +68,7 @@ Scoping to a single district and a single language for the MVP is deliberate: a 
 
 ## 5. Repository
 
-GitHub: [repo URL]. Contains the working prototype source and a short README describing the concept, the two core functions, the offline and responsible-AI design, and the bootcamp build plan. [Confirm the repo is public and the README is current before submitting.]
+GitHub: <https://github.com/leticiaoffeibea23-hash/NurtureLINK>. Contains the research prototype source and documentation of the offline and responsible-AI design.
 
 ---
 
