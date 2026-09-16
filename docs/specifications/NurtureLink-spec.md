@@ -8,7 +8,7 @@ It addresses the product owner critique by adding **Field Operational Workflows*
 
 **Product:** NurtureLink — Offline-first nutrition companion and decision-support platform for CHPS frontline health workers in Northern Ghana
 
-**Author:** Yakubu Lute (Product Owner / Technical Lead)
+**Authors:** Leticia Offeibea and Yakubu Lute (collaborative product development and implementation)
 
 **Status:** Production-Ready Master Specification (v2.0)
 
