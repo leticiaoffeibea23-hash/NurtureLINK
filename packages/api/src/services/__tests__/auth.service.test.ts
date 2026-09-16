@@ -46,7 +46,7 @@ describe('AuthService', () => {
       const passwordHash = await bcrypt.hash(pin, 10);
       return {
         id: 'user-uuid-0000-0000-0000-000000000001',
-        name: 'Yakubu Lute',
+        name: 'Test User',
         role: 'CHO' as const,
         facilityId: 'facility-uuid-0000-0000-0000-000000000001',
         passwordHash,
