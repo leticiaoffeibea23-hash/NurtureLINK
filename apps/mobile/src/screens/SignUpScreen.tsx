@@ -539,7 +539,7 @@ export function SignUpScreen({ navigation }: Props) {
                 style={styles.input}
                 value={firstName}
                 onChangeText={(v) => { setFirstName(v); setError(null); }}
-                placeholder="Yakubu"
+                placeholder="Leticia"
                 placeholderTextColor="#5A6F7C"
                 autoCapitalize="words"
                 autoCorrect={false}
