@@ -4,7 +4,9 @@
 > Built for the **UNICEF AI for Nurturing Care Hackathon** (KOICA / MEST StartUp Lab) · Bootcamp: 26–28 August 2026, Tamale.
 
 **GitHub:** <https://github.com/leticiaoffeibea23-hash/NurtureLINK>
-**Team:** Leticia Offeibea (Co-developer; Health Information & Nutrition) · Yakubu Lute (Co-developer; Technical Architecture)
+**Project Lead and Developer:** Leticia Offeibea
+
+**Teammate acknowledgement:** Yakubu Lute participated as a teammate during the hackathon.
 
 ---
 
@@ -240,16 +242,15 @@ The following features are fully implemented and testable in the demo caseload t
 
 ---
 
-## 8. Team
-
-See full bios in [docs/team-introduction.md](team-introduction.md).
+## 8. Project Lead
 
 | Name | Role | Background |
 | --- | --- | --- |
-| Yakubu Lute | Co-developer / Technical Architecture | Senior Full-Stack Engineer, Amalitech & mPedigree Network (health-tech). Born Tumu, Upper West Region. 7+ years production mobile, web, and backend. |
-| Leticia Offeibea | Co-developer / Health Information & Nutrition | BSc Health Information Management. Research Assistant, Social Determinants of Health. Contributed health-information workflow design, nutrition decision logic, responsible-AI safeguards, testing, documentation, and implementation. |
+| Leticia Offeibea | Project Lead, Designer & Developer | BSc Health Information Management; Research Assistant in Social Determinants of Health. Conceived, designed, and built NurtureLink, including its health-information workflow, nutrition decision logic, responsible-AI safeguards, interfaces, implementation, testing, and documentation. |
 
-**UNICEF criteria met:** female team member, technology + health domain expertise, direct connection to the target geography (Upper West Region), responsible AI architecture.
+**Teammate acknowledgement:** Yakubu Lute participated as a teammate during the UNICEF AI for Nurturing Care Hackathon.
+
+**Relevant strengths:** health-information management, community-health experience, responsible-AI design, applied research, product development, and technical implementation.
 
 ---
 
