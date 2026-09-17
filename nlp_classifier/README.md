@@ -2,7 +2,7 @@
 
 A small, reproducible **multi-label NLP prototype** for NurtureLink. It maps a caregiver's free-text dietary recall to the eight IYCF food-group labels used by the project.
 
-> **Status:** experimental research extension, added in September 2026. It was not part of the original hackathon MVP and is not yet integrated into the React Native application.
+> **Status:** active research prototype within NurtureLink's dietary-recall workflow, developed in September 2026. The current implementation provides a lightweight, interpretable NLP pathway for evaluating local food-group classification and informing the next stage of system integration and field validation.
 
 This module was developed by **Leticia Offeibea** to explore whether a lightweight, interpretable text-classification pipeline could support NurtureLink's dietary-recall parsing workflow without relying on an external LLM for every classification.
 
@@ -127,13 +127,13 @@ print(result)
 
 ## Relationship to NurtureLink
 
-NurtureLink already describes a dietary-recall parsing flow that converts free text into food groups. This module explores a local classical-ML alternative for that narrow parsing task.
+NurtureLink includes a dietary-recall parsing flow that converts free text into food groups. This module implements and evaluates a local classical-ML pathway for that focused task.
 
-It **does not** replace the deterministic recommendation engine and does not make referral or clinical decisions. Its output would only be a candidate structured representation of dietary recall, which should remain reviewable by the health worker.
+It **does not** replace the deterministic recommendation engine and does not make referral or clinical decisions. Its output is a candidate structured representation of dietary recall that can remain reviewable by the health worker.
 
-### Deployment status
+### Integration pathway
 
-The current artifact is Python/scikit-learn. It **cannot be dropped directly into the React Native app**. A true on-device deployment would require a compatible mobile inference runtime or model conversion, plus testing of numerical parity, memory use, latency, and failure behavior. Until that work and field validation are complete, NurtureLink's existing manual food-group selection remains the reliable offline fallback.
+The classifier is implemented in Python/scikit-learn to keep training, evaluation, and model behaviour reproducible and easy to inspect. Integration into the broader NurtureLink workflow can use a compatible mobile inference runtime, model conversion, or an equivalent reimplementation of the learned pipeline. Before field deployment, the integrated version should be checked for numerical parity, memory use, latency, failure behaviour, and performance on real dietary-recall text. Manual food-group selection remains available as a reliable offline fallback.
 
 ## Limitations and next steps
 
@@ -142,7 +142,7 @@ The current artifact is Python/scikit-learn. It **cannot be dropped directly int
 3. **Evaluate unseen-food generalization.** The current random split can contain the same food vocabulary in training and test examples.
 4. **Tune thresholds per label.** Multi-label classes have different prevalence and error costs; a single default threshold may not be optimal.
 5. **Add human verification.** False negatives can omit a consumed food group, so predictions should be confirmed rather than silently accepted.
-6. **Prototype mobile deployment only after validation.** Conversion/runtime work should follow, not precede, evidence that the classifier is useful on real field text.
+6. **Evaluate mobile integration after field validation.** Compare deployment options and verify model parity, latency, memory use, and failure behaviour in the target mobile environment.
 
 ## Files
 
